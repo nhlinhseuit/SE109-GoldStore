@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:se109_goldstore/constants/routers.dart';
+import 'package:se109_goldstore/presentations/home/home_page.dart';
+
+import 'constants/colors.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -26,7 +29,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black,
         // brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color(0xFFFF768E),
+          primary: AppColor.primaryGold,
           secondary: Colors.black,
         ),
         textTheme: TextTheme(
@@ -69,14 +72,10 @@ class _SplashState extends State<Splash> {
         child: Container(
           margin: const EdgeInsets.only(top: 300),
           child: Column(children: [
-            Image.asset(
-              "assets/images/camera.png",
-              width: 80,
-            ),
             Text(
-              'styLLe',
+              'Golder',
               style: GoogleFonts.allura(
-                color: const Color(0xFFFF768E),
+                color: AppColor.primaryGold,
                 fontSize: 100,
               ),
             ),
@@ -105,7 +104,7 @@ class MainPage extends StatelessWidget {
     return PopScope(
       onPopInvoked: onWillPop,
       child: const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(child: HomePage()),
       )
     );
   }

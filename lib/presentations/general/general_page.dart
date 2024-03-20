@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:se109_goldstore/constants/colors.dart';
 
 import '../common/components/page_header.dart';
 
@@ -13,7 +14,7 @@ class GeneralPage extends StatefulWidget {
 class _GeneralPageState extends State<GeneralPage> {
   late int numberOfItem;
   int _selectedChoiceIndex = 0;
-  final List<String> _choiceChips = ['Gold Pr', 'Popular'];
+  final List<String> _choiceChips = ['Gold Price', 'Popular'];
 
   @override
   void initState() {
@@ -36,34 +37,25 @@ class _GeneralPageState extends State<GeneralPage> {
           padding: const EdgeInsets.only(left: 8),
           child: Row(
             children: [
-              ChoiceChip(
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(_choiceChips[0]),
+              ..._choiceChips.map((chip) => 
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: ChoiceChip(
+                    label: Text(chip),
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+                    selectedColor: AppColor.primaryGold,
+                    disabledColor: AppColor.grey,
+                    selected: _selectedChoiceIndex == _choiceChips.indexOf(chip),
+                    showCheckmark: false,
+                    onSelected: (bool selected) {
+                      setState(() {
+                        _selectedChoiceIndex = selected ? 
+                          _choiceChips.indexOf(chip) 
+                          : (_choiceChips.indexOf(chip) - 1).abs();
+                      });
+                    },
+                  ),
                 ),
-                selectedColor: Theme.of(context).colorScheme.primary,
-                selected: _selectedChoiceIndex == 0,
-                onSelected: (bool selected) {
-                  setState(() {
-                    _selectedChoiceIndex = selected ? 0 : 1;
-                  });
-                },
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              ChoiceChip(
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(_choiceChips[1]),
-                ),
-                selectedColor: Theme.of(context).colorScheme.primary,
-                selected: _selectedChoiceIndex == 1,
-                onSelected: (bool selected) {
-                  setState(() {
-                    _selectedChoiceIndex = selected ? 1 : 0;
-                  });
-                },
               ),
             ],
           ),
