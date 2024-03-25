@@ -8,7 +8,7 @@ import 'constants/colors.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Color(0xFFFF768E), // màu nền của thanh trạng thái
+    statusBarColor: AppColor.primaryGold, // màu nền của thanh trạng thái
     statusBarIconBrightness: Brightness.dark, // màu icon trên thanh trạng thái
   ));
   runApp(const MyApp());

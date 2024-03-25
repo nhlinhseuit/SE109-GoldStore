@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 
-class TextStyles {
+class AppTextStyles {
   static TextStyle header = GoogleFonts.inter(
     color: AppColor.textNormal,
     fontWeight: FontWeight.bold,

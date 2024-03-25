@@ -15,12 +15,12 @@ class Header extends StatelessWidget {
         children: [
           Text(
             firstLine.toUpperCase(),
-            style: TextStyles.header,
+            style: AppTextStyles.header,
           ),
           if (secondLine != null)
           Text(
             secondLine!.toUpperCase(),
-            style: TextStyles.header2,
+            style: AppTextStyles.header2,
           ),
           const Divider(
               height: 32,

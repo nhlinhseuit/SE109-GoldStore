@@ -1,8 +1,9 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:se109_goldstore/constants/colors.dart';
+import 'package:se109_goldstore/data/mock_data.dart';
 
 import '../common/components/page_header.dart';
+import 'components/price_table.dart';
 
 class GeneralPage extends StatefulWidget {
   const GeneralPage({super.key});
@@ -13,8 +14,6 @@ class GeneralPage extends StatefulWidget {
 
 class _GeneralPageState extends State<GeneralPage> {
   late int numberOfItem;
-  int _selectedChoiceIndex = 0;
-  final List<String> _choiceChips = ['Gold Price', 'Popular'];
 
   @override
   void initState() {
@@ -34,39 +33,14 @@ class _GeneralPageState extends State<GeneralPage> {
           firstLine: "Gold Price",
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Row(
-            children: [
-              ..._choiceChips.map((chip) => 
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: ChoiceChip(
-                    label: Text(chip),
-                    labelPadding: const EdgeInsets.symmetric(horizontal: 8),
-                    selectedColor: AppColor.primaryGold,
-                    disabledColor: AppColor.grey,
-                    selected: _selectedChoiceIndex == _choiceChips.indexOf(chip),
-                    showCheckmark: false,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        _selectedChoiceIndex = selected ? 
-                          _choiceChips.indexOf(chip) 
-                          : (_choiceChips.indexOf(chip) - 1).abs();
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ],
+          padding: const EdgeInsets.all(8.0),
+          child: PriceTable(
+            currentPrice: MockData.todays,
+            oldPrice: MockData.yesterdays,
+            currentTime: DateTime.now(),
+            oldTime: DateTime.now(),
           ),
-        ),
-        // _selectedChoiceIndex == 0
-        //     ? ImageStreamView(
-        //         user: currentUser, imagesStream: MyImage.imagesStream())
-        //     : ImageStreamView(
-        //         user: currentUser,
-        //         imagesStream: MyImage.imagesPopularStream()),
-
+        )
       ]),
     );
   }
