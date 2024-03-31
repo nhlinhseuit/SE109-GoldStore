@@ -30,10 +30,7 @@ class _TrendPageState extends State<TrendPage> {
         const Header(
           firstLine: "Trend",
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Container()
-        ),
+        Padding(padding: const EdgeInsets.only(left: 16), child: Container()),
       ]),
     );
   }

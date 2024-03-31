@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:se109_goldstore/presentations/common/components/page_title.dart';
 
 import '../common/components/page_header.dart';
 
@@ -30,9 +31,10 @@ class _ChartPageState extends State<ChartPage> {
         const Header(
           firstLine: "Chart",
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Container()
+        Padding(padding: const EdgeInsets.only(left: 16), child: Container()),
+        const PageTitle(
+          firstLine: "Biểu đồ giá vàng 30 ngày ",
+          secondLine: "gần nhất",
         ),
       ]),
     );

@@ -3,23 +3,33 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 
 class AppTextStyles {
+  static TextStyle title = GoogleFonts.inter(
+    color: AppColor.primaryGold,
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+  );
+  static TextStyle title2 = GoogleFonts.inter(
+    color: AppColor.primaryGold,
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+  );
   static TextStyle header = GoogleFonts.inter(
     color: AppColor.textNormal,
     fontWeight: FontWeight.bold,
-    fontSize: 32
+    fontSize: 32,
   );
   static TextStyle header2 = GoogleFonts.inter(
     color: AppColor.primaryGold,
     fontWeight: FontWeight.bold,
-    fontSize: 32
+    fontSize: 32,
   );
   static TextStyle header3 = GoogleFonts.inter(
     color: AppColor.primaryGold,
     fontWeight: FontWeight.bold,
-    fontSize: 28
+    fontSize: 28,
   );
   static const TextStyle body = TextStyle(
     color: AppColor.textNormal,
-    fontSize: 16
+    fontSize: 16,
   );
 }
