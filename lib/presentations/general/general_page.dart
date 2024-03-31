@@ -33,6 +33,41 @@ class _GeneralPageState extends State<GeneralPage> {
           firstLine: "Gold Price",
         ),
         Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Text(
+                  'Chọn ngày',
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  showDatePicker(
+                    context: context,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
+                  );
+                },
+                child: const Row(
+                  children: [
+                    Icon(Icons.calendar_month),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text('06/02/2024'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
           padding: const EdgeInsets.all(8.0),
           child: PriceTable(
             currentPrice: MockData.todays,
@@ -40,7 +75,7 @@ class _GeneralPageState extends State<GeneralPage> {
             currentTime: DateTime.now(),
             oldTime: DateTime.now(),
           ),
-        )
+        ),
       ]),
     );
   }
