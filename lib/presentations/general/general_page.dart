@@ -30,7 +30,7 @@ class _GeneralPageState extends State<GeneralPage> {
     return Scaffold(
       body: ListView(children: [
         const Header(
-          firstLine: "Gold Price",
+          firstLine: "Tỷ Giá",
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

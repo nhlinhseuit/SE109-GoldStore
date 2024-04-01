@@ -32,7 +32,7 @@ class _RevenuePageState extends State<RevenuePage> {
     return Scaffold(
       body: ListView(children: [
         const Header(
-          firstLine: "Revenue",
+          firstLine: "Bộ Sưu Tập",
         ),
         Padding(padding: const EdgeInsets.only(left: 16), child: Container()),
         const PageTitle(

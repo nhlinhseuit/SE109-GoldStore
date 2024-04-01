@@ -14,12 +14,12 @@ class Header extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            firstLine.toUpperCase(),
+            firstLine,
             style: AppTextStyles.header,
           ),
           if (secondLine != null)
             Text(
-              secondLine!.toUpperCase(),
+              secondLine!,
               style: AppTextStyles.header2,
             ),
           const Divider(

@@ -29,7 +29,7 @@ class _ChartPageState extends State<ChartPage> {
     return Scaffold(
       body: ListView(children: [
         const Header(
-          firstLine: "Chart",
+          firstLine: "Biểu Đồ",
         ),
         Padding(padding: const EdgeInsets.only(left: 16), child: Container()),
         const PageTitle(
