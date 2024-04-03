@@ -40,10 +40,10 @@ class _TrendPageState extends State<TrendPage> {
     return Scaffold(
       body: ListView(children: [
         const Header(
-          firstLine: "Dự Đoán",
+          firstLine: "Chỉ Báo",
         ),
         const PageTitle(
-          firstLine: "Biểu đồ dự đoán giá vàng",
+          firstLine: "Biểu đồ chỉ báo giá vàng",
           secondLine: "sắp tới",
         ),
         Padding(
