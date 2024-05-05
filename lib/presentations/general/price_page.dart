@@ -39,89 +39,93 @@ class _PricePageState extends State<PricePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.primaryDarkBackground,
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 42,
-            ),
-            child: Column(
-              children: [
-                Header(
-                  firstLine: selectedType == PriceType.GOLD
-                      ? 'Giá Vàng'
-                      : 'Giá Ngoại Tệ',
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: tabButton("Giá vàng", PriceType.GOLD),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: tabButton("Giá ngoại tệ", PriceType.CURRENCY),
-                      ),
-                    ],
-                  ),
-                ),
-                ..._getListView(selectedType),
-              ]),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              right: 20.0,
-              bottom: 20.0,
-              top: 10,
-            ),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                ),
-                side: const BorderSide(
-                  width: 2,
-                  color: AppColor.textSafe,
-                ),
-                backgroundColor: AppColor.backgroundSecondary,
+      body: Container(
+      decoration: const BoxDecoration(
+        gradient: AppColor.primaryGradientBackground,
+      ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 42,
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AlertPage()),
-                );
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Column(
                 children: [
-                  Text(
-                    'Tạo cảnh báo ${selectedType == PriceType.GOLD ? 'giá vàng' : 'giá ngoại tệ'}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: AppColor.textSafe,
-                    ),
+                  Header(
+                    firstLine: selectedType == PriceType.GOLD
+                        ? 'Giá Vàng'
+                        : 'Giá Ngoại Tệ',
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: tabButton("Giá vàng", PriceType.GOLD),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: tabButton("Giá ngoại tệ", PriceType.CURRENCY),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ..._getListView(selectedType),
+                ]),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 20.0,
+                right: 20.0,
+                bottom: 20.0,
+                top: 10,
+              ),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7.0),
+                  ),
+                  side: const BorderSide(
+                    width: 2,
+                    color: AppColor.textSafe,
+                  ),
+                  backgroundColor: AppColor.backgroundSecondary,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AlertPage()),
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Tạo cảnh báo ${selectedType == PriceType.GOLD ? 'giá vàng' : 'giá ngoại tệ'}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.textSafe,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -153,21 +157,24 @@ class _PricePageState extends State<PricePage> {
       onTap: () => onTabChange(type),
       child: Container(
         height: 36,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
         decoration: BoxDecoration(
+          gradient: isSelected ? AppColor.primaryGradientGold : null,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            width: 1,
-            color: const Color(0xFF7B8B9D),
-          ),
-          color:
-              isSelected ? AppColor.primaryGold : AppColor.backgroundSecondary,
+          border: isSelected
+              ? null
+              : Border.all(
+                  width: 1,
+                  color: const Color(0xFFffe45e),
+                ),
+          color: isSelected ? AppColor.primaryGold : Colors.grey,
         ),
         child: Text(
           text,
           style: AppTextStyles.txt14BoldBlack.copyWith(
-              color:
-                  isSelected ? AppColor.textNormal : const Color(0xFF7B8B9D)),
+            color:
+                isSelected ? AppColor.textNormal : AppColor.backgroundSecondary,
+          ),
           textAlign: TextAlign.center,
         ),
       ),
@@ -207,11 +214,20 @@ class _PricePageState extends State<PricePage> {
                     onPressed: () => _selectDate(context),
                     child: Row(
                       children: [
-                        const Icon(Icons.calendar_month),
+                        const Icon(
+                          Icons.calendar_month,
+                          color: Colors.white,
+                        ),
                         const SizedBox(
                           width: 10,
                         ),
-                        Text(formatDatetime(selectedDateGold))
+                        Text(
+                          formatDatetime(selectedDateGold),
+                          style: AppTextStyles.body.copyWith(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -258,11 +274,20 @@ class _PricePageState extends State<PricePage> {
                     onPressed: () => _selectDate(context),
                     child: Row(
                       children: [
-                        const Icon(Icons.calendar_month),
+                        const Icon(
+                          Icons.calendar_month,
+                          color: Colors.white,
+                        ),
                         const SizedBox(
                           width: 10,
                         ),
-                        Text(formatDatetime(selectedDateCurrency))
+                        Text(
+                          formatDatetime(selectedDateCurrency),
+                          style: AppTextStyles.body.copyWith(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        )
                       ],
                     ),
                   ),

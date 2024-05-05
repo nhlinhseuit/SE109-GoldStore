@@ -28,12 +28,12 @@ class AppTextStyles {
   );
 
   static TextStyle title = GoogleFonts.inter(
-    color: AppColor.primaryGold,
+    color: AppColor.textSafe,
     fontWeight: FontWeight.bold,
     fontSize: 18,
   );
   static TextStyle title2 = GoogleFonts.inter(
-    color: AppColor.primaryGold,
+    color: AppColor.textSafe,
     fontWeight: FontWeight.bold,
     fontSize: 18,
   );

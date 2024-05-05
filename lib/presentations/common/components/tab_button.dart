@@ -14,13 +14,13 @@ class TabChartButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
         decoration: BoxDecoration(
-          color: id == index ? Colors.white : Colors.black,
+          color: id == index ? Colors.white : Colors.transparent,
           borderRadius: BorderRadius.circular(6.0),
         ),
         child: Text(
           text,
           style: TextStyle(
-              fontSize: 10, color: id == index ? Colors.black : Colors.grey),
+              fontSize: 10, color: id == index ? Colors.black : Colors.white),
         ),
       ),
     );

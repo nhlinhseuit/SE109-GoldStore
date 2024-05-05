@@ -40,7 +40,7 @@ class PageTitle extends StatelessWidget {
                 ),
                 Text(
                   secondLine!.toUpperCase(),
-                  style: AppTextStyles.title.copyWith(
+                  style: AppTextStyles.title2.copyWith(
                     decoration: TextDecoration.none,
                     foreground: Paint()
                       ..style = PaintingStyle.stroke

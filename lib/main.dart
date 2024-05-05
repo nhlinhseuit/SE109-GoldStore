@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:se109_goldstore/constants/routers.dart';
 import 'package:se109_goldstore/presentations/home/home_page.dart';
@@ -100,22 +103,42 @@ class _SplashState extends State<Splash> {
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     DateTime? currentBackPressTime;
-    Future<bool> onWillPop(pressed) {
-      DateTime now = DateTime.now();
-      if (currentBackPressTime == null ||
-          now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
-        currentBackPressTime = now;
-        // Toast.showToast(msg: "Press again to exit app.");
-        return Future.value(false);
+    Future<bool> handlePop(BuildContext context) async {
+      final difference =
+          DateTime.now().difference(currentBackPressTime ?? DateTime.now());
+      final notPressed = currentBackPressTime == null ||
+          difference > const Duration(seconds: 2);
+
+      if (notPressed) {
+        currentBackPressTime = DateTime.now();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Press again to exit!',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.blue, // Màu nền của SnackBar
+            duration: Duration(seconds: 2), // Thời gian hiển thị SnackBar
+          ),
+        );
+        return false;
+      } else {
+        if (Platform.isAndroid) {
+          SystemNavigator.pop();
+        } else if (Platform.isIOS) {
+          exit(0);
+        }
+        return true;
       }
-      return Future.value(true);
     }
 
     return PopScope(
-        onPopInvoked: onWillPop,
+        canPop: false,
+        onPopInvoked: (didPop) => handlePop(context),
         child: const Scaffold(
           body: Center(child: HomePage()),
         ));
