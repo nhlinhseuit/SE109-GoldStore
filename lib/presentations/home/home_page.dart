@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         index: _selectedIndex,
         children: tabs,
       ),
-      backgroundColor: AppColor.primaryDarkBackground,
+      backgroundColor: Colors.transparent,
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
             color: AppColor.backgroundSecondary,
