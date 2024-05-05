@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 int cvToInt(dynamic value, [int defaultValue = 0]) {
   if (value is int) {
     return value;
@@ -10,6 +12,11 @@ int cvToInt(dynamic value, [int defaultValue = 0]) {
     return value == true ? 1 : 0;
   }
   return defaultValue;
+}
+
+String formatDatetime(DateTime time) {
+  final f = DateFormat('dd-MM-yyyy');
+  return f.format(time).toString();
 }
 
 double cvToDouble(dynamic value, [double defaultValue = 0.0]) {

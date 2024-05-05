@@ -13,14 +13,42 @@ class PageTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            firstLine.toUpperCase(),
-            style: AppTextStyles.title,
+          Stack(
+            children: [
+              Text(
+                firstLine.toUpperCase(),
+                style: AppTextStyles.title,
+              ),
+              Text(
+                firstLine.toUpperCase(),
+                style: AppTextStyles.title.copyWith(
+                  decoration: TextDecoration.none,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 0.1
+                    ..color = Colors.white, // Màu của border outline
+                ),
+              ),
+            ],
           ),
           if (secondLine != null)
-            Text(
-              secondLine!.toUpperCase(),
-              style: AppTextStyles.title2,
+            Stack(
+              children: [
+                Text(
+                  secondLine!.toUpperCase(),
+                  style: AppTextStyles.title2,
+                ),
+                Text(
+                  secondLine!.toUpperCase(),
+                  style: AppTextStyles.title.copyWith(
+                    decoration: TextDecoration.none,
+                    foreground: Paint()
+                      ..style = PaintingStyle.stroke
+                      ..strokeWidth = 0.1
+                      ..color = Colors.white, // Màu của border outline
+                  ),
+                ),
+              ],
             ),
         ],
       ),

@@ -41,8 +41,8 @@ class _RevenuePageState extends State<RevenuePage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: PriceTable(
-            currentPrice: MockData.todays,
-            oldPrice: MockData.yesterdays,
+            currentPrice: MockData.todaysGold,
+            oldPrice: MockData.yesterdaysGold,
             currentTime: DateTime.now(),
             oldTime: DateTime.now(),
           ),
