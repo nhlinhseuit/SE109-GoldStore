@@ -5,6 +5,7 @@ import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/core/utils/converter.dart';
 import 'package:se109_goldstore/data/mock_data.dart';
+import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
 import 'package:se109_goldstore/presentations/general/alert_page.dart';
 
 import '../common/components/page_header.dart';
@@ -40,9 +41,9 @@ class _PricePageState extends State<PricePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-      decoration: const BoxDecoration(
-        gradient: AppColor.primaryGradientBackground,
-      ),
+        decoration: const BoxDecoration(
+          gradient: AppColor.primaryGradientBackground,
+        ),
         child: Column(
           children: [
             Padding(
@@ -85,44 +86,15 @@ class _PricePageState extends State<PricePage> {
                 ]),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 20.0,
-                right: 20.0,
-                bottom: 20.0,
-                top: 10,
-              ),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7.0),
-                  ),
-                  side: const BorderSide(
-                    width: 2,
-                    color: AppColor.textSafe,
-                  ),
-                  backgroundColor: AppColor.backgroundSecondary,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const AlertPage()),
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Tạo cảnh báo ${selectedType == PriceType.GOLD ? 'giá vàng' : 'giá ngoại tệ'}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.textSafe,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            MyElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AlertPage()),
+                );
+              },
+              text:
+                  'Tạo cảnh báo ${selectedType == PriceType.GOLD ? 'giá vàng' : 'giá ngoại tệ'}',
             ),
           ],
         ),
@@ -159,21 +131,20 @@ class _PricePageState extends State<PricePage> {
         height: 36,
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
         decoration: BoxDecoration(
-          gradient: isSelected ? AppColor.primaryGradientGold : null,
+          gradient: isSelected ? AppColor.primaryDarkGradientButton : null,
           borderRadius: BorderRadius.circular(24),
           border: isSelected
               ? null
               : Border.all(
-                  width: 1,
-                  color: const Color(0xFFffe45e),
+                  width: 2,
+                  color: AppColor.secondDark,
                 ),
-          color: isSelected ? AppColor.primaryGold : Colors.grey,
+          color: isSelected ? AppColor.secondDark : Colors.transparent,
         ),
         child: Text(
           text,
           style: AppTextStyles.txt14BoldBlack.copyWith(
-            color:
-                isSelected ? AppColor.textNormal : AppColor.backgroundSecondary,
+            color: isSelected ? AppColor.textNormal : AppColor.textNormal,
           ),
           textAlign: TextAlign.center,
         ),
@@ -204,7 +175,10 @@ class _PricePageState extends State<PricePage> {
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Text(
                       'Chọn ngày',
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: AppColor.textSafe,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -264,7 +238,10 @@ class _PricePageState extends State<PricePage> {
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Text(
                       'Chọn ngày',
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: AppColor.textSafe,
+                      ),
                     ),
                   ),
                   const SizedBox(

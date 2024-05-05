@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor:
-            Colors.transparent, // Đặt màu transparent cho thanh trạng thái
+            Color(0xFF0c0f25), // Đặt màu transparent cho thanh trạng thái
         statusBarIconBrightness: Brightness
             .light, // Đặt màu của các biểu tượng trên thanh trạng thái
       ),
@@ -44,10 +44,10 @@ class _HomePageState extends State<HomePage> {
         index: _selectedIndex,
         children: tabs,
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: const Color(0xFF161f48),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-            color: AppColor.backgroundSecondary,
+            color: AppColor.greyBackground,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),

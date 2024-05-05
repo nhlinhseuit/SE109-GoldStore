@@ -3,6 +3,8 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/data/shared_preferences.dart';
+import 'package:se109_goldstore/presentations/common/components/add_elevated_button.dart';
+import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/number_button.dart';
 import 'package:se109_goldstore/presentations/general/alert_page.dart';
 import 'package:se109_goldstore/presentations/general/price_page.dart';
@@ -49,10 +51,12 @@ class _CreateAlertPageState extends State<CreateAlertPage> {
             'Tạo cảnh báo',
             style: AppTextStyles.appbarTitle,
           ),
-          backgroundColor: AppColor.backgroundSecondary,
+          backgroundColor: AppColor.secondDark,
         ),
         body: Container(
-          color: Colors.black,
+          decoration: const BoxDecoration(
+            gradient: AppColor.primaryGradientBackground,
+          ),
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
@@ -180,56 +184,26 @@ class _CreateAlertPageState extends State<CreateAlertPage> {
               const SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20.0,
-                  right: 20.0,
-                  bottom: 20.0,
-                  top: 10,
-                ),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                    ),
-                    side: const BorderSide(
-                      width: 2,
-                      color: Colors.white,
-                    ),
-                    backgroundColor: const Color(0xFF23a086),
-                  ),
-                  onPressed: () async {
-                    if (keyboardController.text.trim().isEmpty) {
-                      isSuccess = false;
-                      showAlertDialog();
-                    } else if (RegExp(r'^0|[^\d]')
-                        .hasMatch(keyboardController.text.trim())) {
-                      isSuccess = false;
-                      showAlertDialog();
-                    } else {
-                      isSuccess = true;
-                      widget.isGold
-                          ? addStringToList(keyboardController.text.trim(),
-                              'myAlertsGoldList')
-                          : addStringToList(keyboardController.text.trim(),
-                              'myAlertsCurrencyList');
-                      showAlertDialog();
-                    }
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Tạo cảnh báo ${widget.isGold ? 'giá vàng' : 'giá ngoại tệ'}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: AppColor.textNormal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              AddElevatedButton(
+                onPressed: () async {
+                  if (keyboardController.text.trim().isEmpty) {
+                    isSuccess = false;
+                    showAlertDialog();
+                  } else if (RegExp(r'^0|[^\d]')
+                      .hasMatch(keyboardController.text.trim())) {
+                    isSuccess = false;
+                    showAlertDialog();
+                  } else {
+                    isSuccess = true;
+                    widget.isGold
+                        ? addStringToList(
+                            keyboardController.text.trim(), 'myAlertsGoldList')
+                        : addStringToList(keyboardController.text.trim(),
+                            'myAlertsCurrencyList');
+                    showAlertDialog();
+                  }
+                },
+                text: 'Tạo cảnh báo',
               ),
             ],
           ),

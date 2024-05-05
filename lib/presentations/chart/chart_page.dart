@@ -3,6 +3,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
+import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/presentations/common/components/page_title.dart';
 import 'package:se109_goldstore/presentations/common/components/tab_button.dart';
 
@@ -159,8 +160,8 @@ class _ChartPageState extends State<ChartPage> {
             margin: const EdgeInsets.all(40),
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFF1b1b1b),
-              border: Border.all(width: 2, color: Colors.white),
+              color: Colors.transparent,
+              border: Border.all(width: 2, color: AppColor.secondDark),
               borderRadius: BorderRadius.circular(6.0),
             ),
             child: Row(
@@ -196,6 +197,13 @@ class _ChartPageState extends State<ChartPage> {
               ],
             ),
           ),
+          Container(
+            height: 4,
+            width: MediaQuery.of(context).size.width,
+            color: const Color.fromARGB(255, 63, 63, 63),
+          ),
+
+          // THONG KE
           const SizedBox(
             height: 30,
           ),
@@ -216,7 +224,7 @@ class _ChartPageState extends State<ChartPage> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: AppColor.secondDark,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Row(
@@ -246,9 +254,9 @@ class _ChartPageState extends State<ChartPage> {
                     const Text(
                       '26.000VND',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 13,
                         color: AppColor.textNormal,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -265,7 +273,7 @@ class _ChartPageState extends State<ChartPage> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: AppColor.secondDark,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Row(
@@ -295,9 +303,9 @@ class _ChartPageState extends State<ChartPage> {
                     const Text(
                       '23.000VND',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 13,
                         color: AppColor.textNormal,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -305,10 +313,109 @@ class _ChartPageState extends State<ChartPage> {
               ],
             ),
           ),
-          
+          const SizedBox(
+            height: 48,
+          ),
+          Container(
+            height: 4,
+            width: MediaQuery.of(context).size.width,
+            color: const Color.fromARGB(255, 63, 63, 63),
+          ),
+
+          // TIN TUC
+          const SizedBox(
+            height: 30,
+          ),
+          const PageTitle(
+            firstLine: "Tin tức",
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ...getNews(),
         ]),
       ),
     );
+  }
+
+  List<Widget> getNews() {
+    List<Widget> listNews = [];
+    for (int i = 0; i < 5; i++) {
+      listNews.add(
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 120,
+          margin: const EdgeInsets.only(
+            bottom: 8,
+            left: 10,
+            right: 10,
+          ),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            children: [
+              Container(
+                width: 110,
+                height: 110,
+                margin: const EdgeInsets.only(
+                  left: 4,
+                ),
+                decoration: BoxDecoration(
+                    color: const Color(0xFFfff7e6),
+                    borderRadius: BorderRadius.circular(10)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                      fit: BoxFit.cover,
+                      'https://static01.nyt.com/images/2024/05/03/business/00China-Gold-02/00China-Gold-02-jumbo.jpg?quality=75&auto=webp'),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 150,
+                    child: Text(
+                      'Gold at historic peak, auctions receive lukewarm reception',
+                      maxLines: 3,
+                      overflow: TextOverflow.fade,
+                      style: AppTextStyles.appbarTitle.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w200,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 150,
+                    child: Text(
+                      'The rescheduled auction, held on April 23, only managed to sell 3400 taels, falling far short of the 16800 taels on offer',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.appbarTitle.copyWith(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w200,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return listNews;
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {

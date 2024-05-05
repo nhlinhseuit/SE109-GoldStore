@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/data/shared_preferences.dart';
+import 'package:se109_goldstore/presentations/common/components/add_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/loading.dart';
+import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
 import 'package:se109_goldstore/presentations/general/create_alert_page.dart';
 import 'package:se109_goldstore/presentations/general/price_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,19 +55,19 @@ class _AlertPageState extends State<AlertPage> {
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
+          backgroundColor: AppColor.secondDark,
           centerTitle: true,
           title: Text(
             'Tùy chỉnh cảnh báo',
             style: AppTextStyles.appbarTitle,
           ),
-          backgroundColor: AppColor.backgroundSecondary,
           bottom: TabBar(
             tabs: [
               Tab(
                 child: Text(
                   'Giá vàng',
                   style: AppTextStyles.txt14BoldBlack.copyWith(
-                    color: AppColor.primaryGold,
+                    color: AppColor.textNormal,
                   ),
                 ),
               ),
@@ -73,20 +75,25 @@ class _AlertPageState extends State<AlertPage> {
                 child: Text(
                   'Giá ngoại tệ',
                   style: AppTextStyles.txt14BoldBlack.copyWith(
-                    color: AppColor.primaryGold,
+                    color: AppColor.textNormal,
                   ),
                 ),
               ),
             ],
             indicatorSize: TabBarIndicatorSize.tab,
-            indicatorColor: AppColor.primaryGold,
+            indicatorColor: AppColor.textSafe,
           ),
         ),
-        body: TabBarView(
-          children: [
-            tabBarViewGold(),
-            tabBarViewCurrency(),
-          ],
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: AppColor.primaryGradientBackground,
+          ),
+          child: TabBarView(
+            children: [
+              tabBarViewGold(),
+              tabBarViewCurrency(),
+            ],
+          ),
         ),
       ),
     );
@@ -136,46 +143,16 @@ class _AlertPageState extends State<AlertPage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                      right: 20.0,
-                      bottom: 20.0,
-                      top: 10,
-                    ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0),
-                        ),
-                        side: const BorderSide(
-                          width: 2,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: const Color(0xFF23a086),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CreateAlertPage(isGold: true)),
-                        );
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Tạo cảnh báo giá vàng',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.textNormal,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  AddElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CreateAlertPage(isGold: true)),
+                      );
+                    },
+                    text: 'Tạo cảnh báo',
                   ),
                 ],
               )
@@ -261,46 +238,16 @@ class _AlertPageState extends State<AlertPage> {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                      right: 20.0,
-                      bottom: 20.0,
-                      top: 10,
-                    ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0),
-                        ),
-                        side: const BorderSide(
-                          width: 2,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: const Color(0xFF23a086),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CreateAlertPage(isGold: true)),
-                        );
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Tạo cảnh báo giá vàng',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.textNormal,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  AddElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CreateAlertPage(isGold: true)),
+                      );
+                    },
+                    text: 'Tạo cảnh báo',
                   ),
                 ],
               );
@@ -350,46 +297,17 @@ class _AlertPageState extends State<AlertPage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                      right: 20.0,
-                      bottom: 20.0,
-                      top: 10,
-                    ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0),
-                        ),
-                        side: const BorderSide(
-                          width: 2,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: const Color(0xFF23a086),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CreateAlertPage(isGold: false)),
-                        );
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Tạo cảnh báo giá ngoại tệ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.textNormal,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  AddElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CreateAlertPage(
+                                  isGold: false,
+                                )),
+                      );
+                    },
+                    text: 'Tạo cảnh báo',
                   ),
                 ],
               )
@@ -475,46 +393,16 @@ class _AlertPageState extends State<AlertPage> {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                      right: 20.0,
-                      bottom: 20.0,
-                      top: 10,
-                    ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0),
-                        ),
-                        side: const BorderSide(
-                          width: 2,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: const Color(0xFF23a086),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CreateAlertPage(isGold: false)),
-                        );
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Tạo cảnh báo giá ngoại tệ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.textNormal,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  AddElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CreateAlertPage(isGold: false)),
+                      );
+                    },
+                    text: 'Tạo cảnh báo',
                   ),
                 ],
               );
@@ -528,7 +416,7 @@ class _AlertPageState extends State<AlertPage> {
       builder: (BuildContext context) {
         return Container(
           decoration: const BoxDecoration(
-              color: AppColor.backgroundSecondary,
+              color: AppColor.greyBackground,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0))),
@@ -689,7 +577,7 @@ class _AlertPageState extends State<AlertPage> {
       builder: (BuildContext context) {
         return Container(
           decoration: const BoxDecoration(
-              color: AppColor.backgroundSecondary,
+              color: AppColor.greyBackground,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0))),
