@@ -7,10 +7,18 @@ import 'package:se109_goldstore/presentations/home/home_page.dart';
 import 'constants/colors.dart';
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Color(0xFFFF768E), // màu nền của thanh trạng thái
-    statusBarIconBrightness: Brightness.dark, // màu icon trên thanh trạng thái
-  ));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top]); // Sử dụng SystemUiOverlay.top
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor:
+          Colors.transparent, // Đặt màu transparent cho thanh trạng thái
+      statusBarIconBrightness:
+          Brightness.light, // Đặt màu của các biểu tượng trên thanh trạng thái
+    ),
+  );
+
   runApp(const MyApp());
 }
 
@@ -68,19 +76,23 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.only(top: 300),
-          child: Column(children: [
-            Text(
-              'Golder',
-              style: GoogleFonts.allura(
-                color: AppColor.primaryGold,
-                fontSize: 100,
-              ),
+      body: Column(
+        children: [
+          Center(
+            child: Container(
+              margin: const EdgeInsets.only(top: 300),
+              child: Column(children: [
+                Text(
+                  'Golder',
+                  style: GoogleFonts.allura(
+                    color: AppColor.primaryGold,
+                    fontSize: 100,
+                  ),
+                ),
+              ]),
             ),
-          ]),
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -101,11 +113,11 @@ class MainPage extends StatelessWidget {
       }
       return Future.value(true);
     }
+
     return PopScope(
-      onPopInvoked: onWillPop,
-      child: const Scaffold(
-        body: Center(child: HomePage()),
-      )
-    );
+        onPopInvoked: onWillPop,
+        child: const Scaffold(
+          body: Center(child: HomePage()),
+        ));
   }
 }

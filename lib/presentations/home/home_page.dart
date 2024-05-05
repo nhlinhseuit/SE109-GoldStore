@@ -5,7 +5,7 @@ import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/presentations/chart/chart_page.dart';
 import 'package:se109_goldstore/presentations/revenue/revenue_page.dart';
 
-import '../general/general_page.dart';
+import '../general/price_page.dart';
 import '../trend/trend_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final tabs = const <Widget>[
-    GeneralPage(),
+    PricePage(),
     ChartPage(),
     RevenuePage(),
     TrendPage(),
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
+        overlays: [SystemUiOverlay.top]); // Chỉ áp dụng cho thanh trạng thái
 
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -38,101 +38,102 @@ class _HomePageState extends State<HomePage> {
             .light, // Đặt màu của các biểu tượng trên thanh trạng thái
       ),
     );
+
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
         children: tabs,
       ),
+      backgroundColor: AppColor.primaryDarkBackground,
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              spreadRadius: 1,
-              color: AppColor.backgroundSecondary,
-              blurRadius: 0,
-              offset: Offset(0, 2), // changes position of shadow
+            color: AppColor.backgroundSecondary,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12),
+              topRight: Radius.circular(12),
+            )),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 2),
+        child: GNav(
+          tabBackgroundColor: Colors.transparent,
+          padding: const EdgeInsets.all(7),
+          tabs: const [
+            GButton(
+              icon: Icons.table_chart_rounded,
+              iconActiveColor: AppColor.primaryGold,
+              iconSize: 30,
+              iconColor: AppColor.notActiveButton,
+              text: '',
+              textColor: Colors.black,
+              gap: 0,
+            ),
+            GButton(
+              icon: Icons.newspaper_rounded,
+              iconActiveColor: AppColor.primaryGold,
+              iconSize: 30,
+              iconColor: AppColor.notActiveButton,
+              text: '',
+              textColor: Colors.black,
+              gap: 0,
+            ),
+            GButton(
+              icon: Icons.shopping_bag_rounded,
+              iconActiveColor: AppColor.primaryGold,
+              iconSize: 30,
+              iconColor: AppColor.notActiveButton,
+              textColor: Colors.black,
+              gap: 0,
+              text: '',
+            ),
+            GButton(
+              icon: Icons.price_change_rounded,
+              iconActiveColor: AppColor.primaryGold,
+              iconSize: 30,
+              iconColor: AppColor.notActiveButton,
+              text: '',
+              textColor: Colors.black,
+              gap: 0,
+            ),
+            GButton(
+              icon: Icons.add_chart_rounded,
+              iconActiveColor: AppColor.primaryGold,
+              iconSize: 30,
+              iconColor: AppColor.notActiveButton,
+              text: '',
+              textColor: Colors.black,
+              gap: 0,
             ),
           ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: GNav(
-            // tabBackgroundColor: const Color.fromRGBO(255, 191, 202, 100),
-            tabBackgroundColor: AppColor.primaryGold,
-            padding: const EdgeInsets.all(7),
-            tabs: const [
-              GButton(
-                icon: Icons.home,
-                iconColor: AppColor.primaryGold,
-                text: 'General',
-                textColor: Colors.black,
-                gap: 6,
-              ),
-              GButton(
-                icon: Icons.add_box_rounded,
-                iconColor: AppColor.primaryGold,
-                text: 'Chart',
-                textColor: Colors.black,
-                gap: 6,
-              ),
-              GButton(
-                icon: Icons.search_rounded,
-                iconSize: 28,
-                iconColor: AppColor.primaryGold,
-                textColor: Colors.black,
-                gap: 6,
-                text: 'Revenue',
-              ),
-              GButton(
-                icon: Icons.person_2,
-                iconColor: AppColor.primaryGold,
-                text: 'Trend',
-                textColor: Colors.black,
-                gap: 6,
-              ),
-            ],
-            selectedIndex: _selectedIndex,
-            onTabChange: (value) {
-              setState(() {
-                _selectedIndex = value;
-              });
-            },
-          ),
+          selectedIndex: _selectedIndex,
+          onTabChange: (value) {
+            setState(() {
+              _selectedIndex = value;
+            });
+          },
         ),
       ),
     );
-    // } else {
-    //   return const Scaffold(
-    //     body: Center(
-    //       child: CircularProgressIndicator(),
-    //     ),
-    //   );
-    // }
   }
 }
-//     );
-//   }
-// }
 
 Future<bool> showLogOutDialog(BuildContext context) {
   return showDialog<bool>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Sign out'),
-          content: const Text('Are you sure you want to log out'),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: const Text('Cancel')),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: const Text('Log out')),
-          ],
-        );
-      }).then((value) => value ?? false);
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Sign out'),
+            content: const Text('Are you sure you want to log out'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: const Text('Cancel')),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: const Text('Log out')),
+            ],
+          );
+        }).then((value) => value ?? false);
 }
