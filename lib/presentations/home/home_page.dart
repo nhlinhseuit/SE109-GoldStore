@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:se109_goldstore/constants/colors.dart';
+import 'package:se109_goldstore/presentations/caculate/calculate_page.dart';
 import 'package:se109_goldstore/presentations/chart/chart_page.dart';
 import 'package:se109_goldstore/presentations/revenue/revenue_page.dart';
 
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
     PricePage(),
     ChartPage(),
     RevenuePage(),
+    CalculatePage(),
     TrendPage(),
   ];
 

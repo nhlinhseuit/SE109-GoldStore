@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/data/mock_data.dart';
+import 'package:se109_goldstore/presentations/caculate/calculate_page.dart';
 import 'package:se109_goldstore/presentations/common/components/add_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/page_title.dart';
 import 'package:se109_goldstore/presentations/general/components/price_table.dart';
@@ -44,7 +45,7 @@ class _RevenuePageState extends State<RevenuePage> {
             firstLine: "Lịch sử mua vàng",
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: PriceTable(
               currentPrice: MockData.todaysGold,
               oldPrice: MockData.yesterdaysGold,
@@ -58,34 +59,71 @@ class _RevenuePageState extends State<RevenuePage> {
           const PageTitle(
             firstLine: "Tổng giá trị",
           ),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
-                    Text(
-                      'Số lượng vàng',
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColor.secondDark,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Text(
+                        'Số lượng vàng',
+                      ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text('Giá trị lúc mua'),
-                    SizedBox(
+                    Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColor.secondDark,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text('Giá trị lúc mua')),
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text('Giá trị hiện tại'),
-                    SizedBox(
+                    Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColor.secondDark,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text('Giá trị hiện tại')),
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text('Lợi nhuận'),
+                    Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColor.secondDark,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text('Lợi nhuận')),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
-                Column(
+                const Column(
                   children: [
                     Text(
                       '35 CHỈ',
@@ -119,7 +157,15 @@ class _RevenuePageState extends State<RevenuePage> {
           const SizedBox(
             height: 20,
           ),
-          AddElevatedButton(onPressed: () {}, text: 'Thêm'),
+          AddElevatedButton(
+              onPressed: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => const CalculatePage()),
+                // );
+              },
+              text: 'Thêm'),
         ]),
       ),
     );
