@@ -9,7 +9,7 @@ import 'package:se109_goldstore/presentations/common/components/my_elevated_butt
 import 'package:se109_goldstore/presentations/general/alert_page.dart';
 
 import '../common/components/page_header.dart';
-import 'components/price_table.dart';
+import '../common/components/price_table.dart';
 
 enum PriceType { GOLD, CURRENCY }
 

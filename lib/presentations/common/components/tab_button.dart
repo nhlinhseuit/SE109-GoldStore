@@ -1,28 +1,45 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+// import 'package:se109_goldstore/presentations/general/price_page.dart';
 
-class TabChartButton extends StatelessWidget {
-  String text;
-  int id;
-  int index;
-  TabChartButton(
-      {super.key, required this.text, required this.id, required this.index});
+// class TabButton extends StatefulWidget {
+//   final String text;
+//   final PriceType type;
+//   const TabButton({required this.text, required this.type, super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2.0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-        decoration: BoxDecoration(
-          color: id == index ? Colors.white : Colors.transparent,
-          borderRadius: BorderRadius.circular(6.0),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-              fontSize: 10, color: id == index ? Colors.black : Colors.white),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   State<TabButton> createState() => _TabButtonState();
+// }
+
+// class _TabButtonState extends State<TabButton> {
+//   @override
+//   Widget build(BuildContext context) {
+//     bool isSelected = widget.type == selectedType;
+//     return InkWell(
+//       onTap: () => onTabChange(type),
+//       child: Container(
+//         height: 36,
+//         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+//         decoration: BoxDecoration(
+//           gradient: isSelected ? AppColor.primaryDarkGradientButton : null,
+//           borderRadius: BorderRadius.circular(24),
+//           border: isSelected
+//               ? null
+//               : Border.all(
+//                   width: 2,
+//                   color: AppColor.secondDark,
+//                 ),
+//           color: isSelected ? AppColor.secondDark : Colors.transparent,
+//         ),
+//         child: Text(
+//           text,
+//           style: AppTextStyles.txt14BoldBlack.copyWith(
+//             color: isSelected ? AppColor.textNormal : AppColor.textNormal,
+//           ),
+//           textAlign: TextAlign.center,
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// Widget tabButton(String text, PriceType type) {}

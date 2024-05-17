@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
@@ -6,6 +7,7 @@ import 'package:se109_goldstore/data/shared_preferences.dart';
 import 'package:se109_goldstore/presentations/common/components/add_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/number_button.dart';
+import 'package:se109_goldstore/presentations/common/components/page_header.dart';
 import 'package:se109_goldstore/presentations/general/alert_page.dart';
 import 'package:se109_goldstore/presentations/general/price_page.dart';
 
@@ -40,14 +42,14 @@ class _CalculatePageState extends State<CalculatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            'Quy đổi vàng / tiền tệ',
-            style: AppTextStyles.appbarTitle,
-          ),
-          backgroundColor: AppColor.secondDark,
-        ),
+        // appBar: AppBar(
+        //   centerTitle: true,
+        //   title: Text(
+        //     'Quy đổi vàng / tiền tệ',
+        //     style: AppTextStyles.appbarTitle,
+        //   ),
+        //   backgroundColor: AppColor.secondDark,
+        // ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: AppColor.primaryGradientBackground,
@@ -55,117 +57,191 @@ class _CalculatePageState extends State<CalculatePage> {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 40.0),
+                child: Header(
+                  firstLine: "Quy đổi vàng",
+                ),
+              ),
               Expanded(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 20,
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: 20,
+                    top: 5,
+                    right: 20,
+                    bottom: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0,
+                      vertical: 20,
                     ),
-                    Text(
-                      'Giá vàng',
-                      style: AppTextStyles.appbarTitle.copyWith(
-                        fontSize: 22,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Giá hiện tại:',
-                          style: AppTextStyles.appbarTitle.copyWith(
-                            color: AppColor.textSafe,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          '23.000 VND',
-                          style: AppTextStyles.appbarTitle.copyWith(
-                            color: AppColor.textSafe,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: ' Thông báo cho tôi khi ',
-                            style: AppTextStyles.appbarTitle.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w200,
-                              fontSize: 14,
-                            ),
-                          ),
-                          TextSpan(
-                            text: '1\$',
-                            style: AppTextStyles.appbarTitle.copyWith(
-                              color: AppColor.primaryGold,
-                              fontWeight: FontWeight.w200,
-                              fontSize: 14,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ' vượt mức',
-                            style: AppTextStyles.appbarTitle.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w200,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(width: 14),
-                        Text(
-                          'VND',
-                          style: AppTextStyles.appbarTitle.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                          ),
-                        ),
-                        const SizedBox(width: 22),
-                        Expanded(child: myTextField()),
-                        const SizedBox(width: 10),
-                        Positioned(
-                          right: MediaQuery.of(context).size.width / 7,
-                          top: MediaQuery.of(context).size.width / 20,
-                          child: GestureDetector(
-                            onTap: handleDelete,
-                            onLongPress: () => handleDelete(true),
-                            behavior: HitTestBehavior.translucent,
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(12, 12, 14, 12),
-                              child: Icon(
-                                Icons.backspace_rounded,
-                                color: Colors.white,
-                                size: MediaQuery.of(context).size.width / 16,
+                        // TỪ
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                                bottom: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Từ',
+                                    style: AppTextStyles.appbarTitle.copyWith(
+                                      color: const Color.fromARGB(
+                                          255, 180, 180, 180),
+                                      fontWeight: FontWeight.w100,
+                                      fontSize: 13,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Row(
+                                  children: [
+                                    Container(
+                                      width: 36,
+                                      height: 36,
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xFFfff7e6),
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: const Icon(
+                                        Icons.bar_chart_rounded,
+                                        size: 28,
+                                        color: Color(0xFFf7b60a),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'CHỈ',
+                                      style: AppTextStyles.appbarTitle.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w200,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                                Text(
+                                  '0',
+                                  style: AppTextStyles.appbarTitle.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w200,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(
+                          height: 20,
+                        ),
+
+                        Container(
+                          width: double.infinity,
+                          color: Colors.white,
+                          height: 1,
+                        ),
+
+                        const SizedBox(
+                          height: 20,
+                        ),
+
+                        // ĐẾN
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                                bottom: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Đến',
+                                    style: AppTextStyles.appbarTitle.copyWith(
+                                      color: const Color.fromARGB(
+                                          255, 180, 180, 180),
+                                      fontWeight: FontWeight.w100,
+                                      fontSize: 13,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Row(
+                                  children: [
+                                    Container(
+                                      width: 36,
+                                      height: 36,
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xFFfff7e6),
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: const Icon(
+                                        Icons.currency_exchange_rounded,
+                                        size: 28,
+                                        color: AppColor.textSafe,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'VNĐ',
+                                      style: AppTextStyles.appbarTitle.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w200,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                                Text(
+                                  '0',
+                                  style: AppTextStyles.appbarTitle.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w200,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
               LayoutGrid(
                 columnSizes: const [auto, auto, auto],
                 rowSizes: const [auto, auto, auto, auto],
                 columnGap: 40,
-                rowGap: 10,
+                rowGap: 5,
                 gridFit: GridFit.loose,
                 children: List.generate(
                   symbols.length,
@@ -179,7 +255,7 @@ class _CalculatePageState extends State<CalculatePage> {
               const SizedBox(
                 height: 10,
               ),
-              AddElevatedButton(
+              MyElevatedButton(
                 onPressed: () async {
                   if (keyboardController.text.trim().isEmpty) {
                     isSuccess = false;
@@ -195,7 +271,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     showAlertDialog();
                   }
                 },
-                text: 'Tạo cảnh báo',
+                text: 'Tiếp tục',
               ),
             ],
           ),

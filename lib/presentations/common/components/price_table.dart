@@ -7,7 +7,7 @@ import 'package:se109_goldstore/core/utils/currency.dart';
 import 'package:se109_goldstore/data/models/daily_price.dart';
 import 'package:se109_goldstore/data/models/price_model.dart';
 
-import '../../common/components/column_header.dart';
+import 'column_header.dart';
 
 class PriceTable extends StatelessWidget {
   const PriceTable({

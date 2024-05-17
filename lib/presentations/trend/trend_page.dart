@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/presentations/common/components/page_title.dart';
-import 'package:se109_goldstore/presentations/common/components/tab_button.dart';
+import 'package:se109_goldstore/presentations/common/components/tab_chart_button.dart';
 import 'package:se109_goldstore/presentations/trend/fl_chart.dart';
 import '../common/components/page_header.dart';
 
@@ -29,8 +29,8 @@ class _TrendPageState extends State<TrendPage> {
   }
 
   List<Color> gradientColors = [
-    const Color(0xFFc0974e),
-    Colors.black,
+    const Color(0xFFffe45e),
+    const Color(0xFFBF974F),
   ];
 
   int isSelected = 1;
@@ -38,307 +38,284 @@ class _TrendPageState extends State<TrendPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(children: [
-        const Header(
-          firstLine: "Chỉ Báo",
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: AppColor.primaryGradientBackground,
         ),
-        const PageTitle(
-          firstLine: "Biểu đồ chỉ báo giá vàng",
-          secondLine: "sắp tới",
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 32.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = 1;
-                  });
-                },
-                child: TabChartButton(
-                  text: '1D',
-                  id: 1,
-                  index: isSelected,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = 2;
-                  });
-                },
-                child: TabChartButton(
-                  text: '7D',
-                  id: 2,
-                  index: isSelected,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = 3;
-                  });
-                },
-                child: TabChartButton(
-                  text: '1M',
-                  id: 3,
-                  index: isSelected,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = 4;
-                  });
-                },
-                child: TabChartButton(
-                  text: '3M',
-                  id: 4,
-                  index: isSelected,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = 5;
-                  });
-                },
-                child: TabChartButton(
-                  text: '1Y',
-                  id: 5,
-                  index: isSelected,
-                ),
-              ),
-            ],
+        child: ListView(children: [
+          const Header(
+            firstLine: "Chỉ Báo",
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 20.0, right: 20, top: 10),
-          child: DottedLine(
-            direction: Axis.horizontal,
-            alignment: WrapAlignment.center,
-            lineLength: double.infinity,
-            lineThickness: 1.0,
-            dashLength: 4.0,
-            dashColor: Colors.white,
-            dashRadius: 0.0,
-            dashGapLength: 4.0,
-            dashGapColor: Colors.transparent,
-            dashGapRadius: 0.0,
+          const PageTitle(
+            firstLine: "Biểu đồ chỉ báo giá vàng",
+            secondLine: "sắp tới",
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: Stack(
-            children: <Widget>[
-              AspectRatio(
-                aspectRatio: 1.70,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    right: 10,
-                    left: 10,
-                    top: 0,
-                    bottom: 0,
-                  ),
-                  child: LineChart(
-                    mainData(),
+          Padding(
+            padding: const EdgeInsets.only(top: 32.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isSelected = 1;
+                    });
+                  },
+                  child: TabChartButton(
+                    text: '1D',
+                    id: 1,
+                    index: isSelected,
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 40,
-        ),
-        const PageTitle(
-          firstLine: "Thống kê",
-        ),
-        const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    '1 ngày',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isSelected = 2;
+                    });
+                  },
+                  child: TabChartButton(
+                    text: '7D',
+                    id: 2,
+                    index: isSelected,
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '1 tuần',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '1 tháng',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Column(
-                children: [
-                  Text(
-                    '-0.15%',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColor.textDanger,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '+0.4%',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColor.textSafe,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '+4.16%',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColor.textSafe,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Column(
-                children: [
-                  Text(
-                    '1 năm',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '1Y cao nhất',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '1Y thấp nhất',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Column(
-                children: [
-                  Text(
-                    '+3.46%',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColor.textSafe,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '26.000VND',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColor.textNormal,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '23.000VND',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColor.textNormal,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.all(40),
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-          decoration: BoxDecoration(
-            color: const Color(0xFF1b1b1b),
-            border: Border.all(width: 2, color: Colors.white),
-            borderRadius: BorderRadius.circular(6.0),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 18,
-                width: 18,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFF00c183),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              const Text('Mua vào'),
-              const SizedBox(
-                width: 20,
-              ),
-              Container(
-                height: 18,
-                width: 18,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFFa7443e),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isSelected = 3;
+                    });
+                  },
+                  child: TabChartButton(
+                    text: '1M',
+                    id: 3,
+                    index: isSelected,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              const Text('Bán ra'),
-            ],
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isSelected = 4;
+                    });
+                  },
+                  child: TabChartButton(
+                    text: '3M',
+                    id: 4,
+                    index: isSelected,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isSelected = 5;
+                    });
+                  },
+                  child: TabChartButton(
+                    text: '1Y',
+                    id: 5,
+                    index: isSelected,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ]),
+          const Padding(
+            padding: EdgeInsets.only(left: 20.0, right: 20, top: 10),
+            child: DottedLine(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              lineLength: double.infinity,
+              lineThickness: 1.0,
+              dashLength: 4.0,
+              dashColor: Colors.white,
+              dashRadius: 0.0,
+              dashGapLength: 4.0,
+              dashGapColor: Colors.transparent,
+              dashGapRadius: 0.0,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Stack(
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 1.70,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      right: 10,
+                      left: 10,
+                      top: 0,
+                      bottom: 0,
+                    ),
+                    child: LineChart(
+                      mainData(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(40),
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              border: Border.all(width: 2, color: AppColor.secondDark),
+              borderRadius: BorderRadius.circular(6.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 18,
+                  width: 18,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFF00c183),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text('Mua vào'),
+                const SizedBox(
+                  width: 20,
+                ),
+                Container(
+                  height: 18,
+                  width: 18,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFFa7443e),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text('Bán ra'),
+              ],
+            ),
+          ),
+          Container(
+            height: 4,
+            width: MediaQuery.of(context).size.width,
+            color: const Color.fromARGB(255, 63, 63, 63),
+          ),
+
+          // THONG KE
+          const SizedBox(
+            height: 30,
+          ),
+          const PageTitle(
+            firstLine: "Thống kê",
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColor.secondDark,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.arrow_upward_rounded,
+                            size: 18,
+                            color: AppColor.textSafe,
+                          ),
+                          SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            '1Y cao nhất',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    const Text(
+                      '26.000VND',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: AppColor.textNormal,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColor.secondDark,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.arrow_downward_rounded,
+                            size: 18,
+                            color: AppColor.textDanger,
+                          ),
+                          SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            '1Y thấp nhất',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    const Text(
+                      '23.000VND',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: AppColor.textNormal,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 48,
+          ),
+        ]),
+      ),
     );
   }
 

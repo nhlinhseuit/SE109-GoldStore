@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/presentations/common/components/page_title.dart';
-import 'package:se109_goldstore/presentations/common/components/tab_button.dart';
+import 'package:se109_goldstore/presentations/common/components/tab_chart_button.dart';
 
 import '../common/components/page_header.dart';
 
@@ -333,6 +333,9 @@ class _ChartPageState extends State<ChartPage> {
             height: 20,
           ),
           ...getNews(),
+          const SizedBox(
+            height: 20,
+          ),
         ]),
       ),
     );
@@ -561,4 +564,5 @@ class _ChartPageState extends State<ChartPage> {
       ],
     );
   }
+
 }

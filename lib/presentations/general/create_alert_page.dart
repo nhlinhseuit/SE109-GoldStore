@@ -170,7 +170,7 @@ class _CreateAlertPageState extends State<CreateAlertPage> {
                 columnSizes: const [auto, auto, auto],
                 rowSizes: const [auto, auto, auto, auto],
                 columnGap: 40,
-                rowGap: 10,
+                rowGap: 5,
                 gridFit: GridFit.loose,
                 children: List.generate(
                   symbols.length,
