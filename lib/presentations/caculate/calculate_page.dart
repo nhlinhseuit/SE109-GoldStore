@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -155,10 +156,52 @@ class _CalculatePageState extends State<CalculatePage> {
                           height: 20,
                         ),
 
-                        Container(
-                          width: double.infinity,
-                          color: Colors.white,
-                          height: 1,
+                        // Container(
+                        //   width: double.infinity,
+                        //   color: Colors.white,
+                        //   height: 1,
+                        // ),
+
+                        LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {  
+                            return Stack(
+                              children: [
+                                const Row(
+                                  children: [
+                                    Expanded(
+                                      child: Divider(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(width: 40, height: 40,),
+                                    Expanded(
+                                      child: Divider(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Positioned(
+                                  left: constraints.maxWidth / 2 - 20,
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: Colors.white)
+                                    ),
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    icon: const Icon(Icons.swap_vert, color: Colors.white,),
+                                    onPressed: () {
+                                      debugPrint('Button pressed');
+                                    },
+                                  ),
+                                ),
+                                )
+                              ],
+                            );
+                          },
                         ),
 
                         const SizedBox(
