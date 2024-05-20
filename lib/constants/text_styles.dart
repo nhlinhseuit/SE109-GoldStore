@@ -8,6 +8,7 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     fontSize: 16,
   );
+  
   static const txt14BoldBlack = TextStyle(
     fontFamily: 'Manrope',
     fontSize: 14,

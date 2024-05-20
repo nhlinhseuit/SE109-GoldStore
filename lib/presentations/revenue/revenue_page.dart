@@ -38,6 +38,22 @@ class _RevenuePageState extends State<RevenuePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        elevation: 0.0,
+        shape: const CircleBorder(
+          side: BorderSide(
+            color: Colors.white, // Border color
+            width: 3.0, // Border width
+          ),
+        ),
+        backgroundColor: AppColor.secondDark,
+        onPressed: () {},
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          weight: 4,
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: AppColor.primaryGradientBackground,
@@ -191,17 +207,8 @@ class _RevenuePageState extends State<RevenuePage> {
             height: 20,
           ),
           const SizedBox(
-            height: 30,
+            height: 60,
           ),
-          AddElevatedButton(
-              onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => const CalculatePage()),
-                // );
-              },
-              text: 'Thêm'),
         ]),
       ),
     );
