@@ -143,16 +143,19 @@ class _AlertPageState extends State<AlertPage> {
                       ),
                     ),
                   ),
-                  AddElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const CreateAlertPage(isGold: true)),
-                      );
-                    },
-                    text: 'Tạo cảnh báo',
+                  Container(
+                    color: Colors.black,
+                    child: AddElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const CreateAlertPage(isGold: true)),
+                        );
+                      },
+                      text: 'Tạo cảnh báo',
+                    ),
                   ),
                 ],
               )
@@ -238,16 +241,19 @@ class _AlertPageState extends State<AlertPage> {
                       },
                     ),
                   ),
-                  AddElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const CreateAlertPage(isGold: true)),
-                      );
-                    },
-                    text: 'Tạo cảnh báo',
+                  Container(
+                    color: Colors.transparent,
+                    child: AddElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const CreateAlertPage(isGold: true)),
+                        );
+                      },
+                      text: 'Tạo cảnh báo',
+                    ),
                   ),
                 ],
               );
@@ -297,17 +303,20 @@ class _AlertPageState extends State<AlertPage> {
                       ),
                     ),
                   ),
-                  AddElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CreateAlertPage(
-                                  isGold: false,
-                                )),
-                      );
-                    },
-                    text: 'Tạo cảnh báo',
+                  Container(
+                    color: Colors.black,
+                    child: AddElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CreateAlertPage(
+                                    isGold: false,
+                                  )),
+                        );
+                      },
+                      text: 'Tạo cảnh báo',
+                    ),
                   ),
                 ],
               )
@@ -393,16 +402,19 @@ class _AlertPageState extends State<AlertPage> {
                       },
                     ),
                   ),
-                  AddElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const CreateAlertPage(isGold: false)),
-                      );
-                    },
-                    text: 'Tạo cảnh báo',
+                  Container(
+                    color: Colors.transparent,
+                    child: AddElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const CreateAlertPage(isGold: false)),
+                        );
+                      },
+                      text: 'Tạo cảnh báo',
+                    ),
                   ),
                 ],
               );

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -327,7 +328,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           gapPadding: 6,
           borderRadius: _setOutlineBorderRadius(),
           borderSide: const BorderSide(
-            color: Colors.black,
+            color: AppColor.textSafe,
             width: 2,
           ),
         );
@@ -341,7 +342,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           child: OutlineInputBorder(
             borderRadius: _setOutlineBorderRadius(),
             borderSide: const BorderSide(
-              color: Colors.black,
+              color: AppColor.textSafe,
               width: 2,
             ),
           ),
@@ -380,7 +381,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           gapPadding: 6,
           borderRadius: _setOutlineBorderRadius(),
           borderSide: BorderSide(
-            color: Colors.black,
+            color: AppColor.textSafe,
             width: widget.borderWidth,
           ),
         );
@@ -410,7 +411,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             gapPadding: 6,
             borderRadius: _setOutlineBorderRadius(),
             borderSide: BorderSide(
-              color: Colors.black,
+              color: AppColor.textSafe,
               width: widget.borderWidth,
             ),
           ),
@@ -447,13 +448,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
     switch (widget.padding) {
       case TextFormFieldPadding.Padding0:
-        return 0;
+        return const EdgeInsets.all(16);
       case TextFormFieldPadding.PaddingL24:
-        return 16;
+        return const EdgeInsets.all(16);
       case TextFormFieldPadding.PaddingL40:
-        return 16;
+        return const EdgeInsets.all(16);
       default:
-        return hasLabel ? null : 16;
+        return hasLabel ? null : const EdgeInsets.all(16);
     }
   }
 

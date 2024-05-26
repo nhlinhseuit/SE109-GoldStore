@@ -9,15 +9,15 @@ Future<List<String>> getAlertsList(String prefsList) async {
 }
 
 Future<void> addStringToList(String value, String prefsList) async {
-  print(value);
+  print('value $value');
   SharedPreferences prefs = await SharedPreferences.getInstance();
   List<String> currentList = await getAlertsList(prefsList);
-  print(currentList);
+  print('currentList 1 $currentList');
   currentList.add(value);
   await prefs.setStringList(prefsList, currentList);
 
   List<String> currentList2 = await getAlertsList(prefsList);
-  print(currentList2);
+  print('currentList2 $currentList2');
 }
 
 Future<void> removeStringFromList(String inputValue, String prefsList) async {
@@ -30,4 +30,13 @@ Future<void> removeStringFromList(String inputValue, String prefsList) async {
 
   List<String> currentList2 = await getAlertsList(prefsList);
   print(currentList2);
+}
+
+Future<void> removeAllFromList(String prefsList) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String> currentList = [];
+  await prefs.setStringList(prefsList, currentList);
+
+  List<String> currentList2 = await getAlertsList(prefsList);
+  print('currentList2 $currentList2');
 }

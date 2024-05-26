@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
+import 'package:se109_goldstore/presentations/common/components/buy_item.dart';
 
 class HistoryItem extends StatelessWidget {
-  const HistoryItem({super.key});
+  final List<String> listQuantity;
+  final String date;
+  const HistoryItem(
+      {super.key, required this.listQuantity, required this.date});
 
   @override
   Widget build(BuildContext context) {
+    List<String> parts = date.split('-');
+    debugPrint(parts.toString());
+    String day = parts[0];
+    String month = parts[1];
+    String year = parts[2];
+    int total = 0;
+    for (var element in listQuantity) {
+      total += int.parse(element);
+    }
     return Container(
       padding: const EdgeInsets.only(
         left: 24,
@@ -28,7 +41,7 @@ class HistoryItem extends StatelessWidget {
                       height: 34,
                       child: Center(
                           child: Text(
-                        '21',
+                        day,
                         style: AppTextStyles.appbarTitle.copyWith(
                           fontSize: 18,
                           color: Colors.black,
@@ -39,7 +52,15 @@ class HistoryItem extends StatelessWidget {
                       width: 20,
                     ),
                     Text(
-                      'Today, May 2021',
+                      'Tháng $month',
+                      style: AppTextStyles.appbarTitle.copyWith(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    Text(
+                      ' - $year',
                       style: AppTextStyles.appbarTitle.copyWith(
                         fontSize: 14,
                         color: Colors.white,
@@ -50,10 +71,10 @@ class HistoryItem extends StatelessWidget {
                 ),
               ),
               Text(
-                '\$2.00',
+                '$total CHỈ',
                 style: AppTextStyles.appbarTitle.copyWith(
                   fontSize: 14,
-                  color: Colors.white,
+                  color: AppColor.textSafe,
                   fontWeight: FontWeight.w300,
                 ),
               ),
@@ -71,173 +92,14 @@ class HistoryItem extends StatelessWidget {
             height: 16,
           ),
           Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                              color: const Color(0xFFfff7e6),
-                              borderRadius: BorderRadius.circular(100)),
-                          child: const Icon(
-                            Icons.bar_chart_rounded,
-                            size: 24,
-                            color: Color(0xFFf7b60a),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Food & Beverage',
-                              style: AppTextStyles.appbarTitle.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w200,
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              'Boba Tea',
-                              style: AppTextStyles.appbarTitle.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w300,
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text(
-                    '-\$12.00',
-                    style: TextStyle(
-                      color: AppColor.textDanger,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                              color: const Color(0xFFfff7e6),
-                              borderRadius: BorderRadius.circular(100)),
-                          child: const Icon(
-                            Icons.bar_chart_rounded,
-                            size: 24,
-                            color: Color(0xFFf7b60a),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Food & Beverage',
-                              style: AppTextStyles.appbarTitle.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w200,
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              'Boba Tea',
-                              style: AppTextStyles.appbarTitle.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w300,
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text(
-                    '-\$12.00',
-                    style: TextStyle(
-                      color: AppColor.textDanger,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                              color: const Color(0xFFfff7e6),
-                              borderRadius: BorderRadius.circular(100)),
-                          child: const Icon(
-                            Icons.bar_chart_rounded,
-                            size: 24,
-                            color: Color(0xFFf7b60a),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Food & Beverage',
-                              style: AppTextStyles.appbarTitle.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w200,
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              'Boba Tea',
-                              style: AppTextStyles.appbarTitle.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w300,
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text(
-                    '-\$12.00',
-                    style: TextStyle(
-                      color: AppColor.textDanger,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+            children: List.generate(
+                listQuantity.length,
+                (index) => BuyItem(
+                      quantity: listQuantity[index],
+                    )),
+          ),
+          const SizedBox(
+            height: 50,
           ),
         ],
       ),

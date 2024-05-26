@@ -24,6 +24,8 @@ class _CalculatePageState extends State<CalculatePage> {
   bool isSuccess = false;
   final keyboardController = TextEditingController();
   final keyboardScroll = ScrollController();
+  bool isConvertGold = true;
+  String result = '0';
 
   @override
   void initState() {
@@ -113,38 +115,72 @@ class _CalculatePageState extends State<CalculatePage> {
                                 Expanded(
                                     child: Row(
                                   children: [
-                                    Container(
-                                      width: 36,
-                                      height: 36,
-                                      decoration: BoxDecoration(
-                                          color: const Color(0xFFfff7e6),
-                                          borderRadius:
-                                              BorderRadius.circular(100)),
-                                      child: const Icon(
-                                        Icons.bar_chart_rounded,
-                                        size: 28,
-                                        color: Color(0xFFf7b60a),
-                                      ),
-                                    ),
+                                    isConvertGold
+                                        ? Container(
+                                            width: 36,
+                                            height: 36,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFFfff7e6),
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
+                                            child: const Icon(
+                                              Icons.bar_chart_rounded,
+                                              size: 28,
+                                              color: Color(0xFFf7b60a),
+                                            ),
+                                          )
+                                        : Container(
+                                            width: 36,
+                                            height: 36,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFFfff7e6),
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
+                                            child: const Icon(
+                                              Icons.currency_exchange_rounded,
+                                              size: 28,
+                                              color: AppColor.textSafe,
+                                            ),
+                                          ),
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    Text(
-                                      'CHỈ',
-                                      style: AppTextStyles.appbarTitle.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w200,
-                                        fontSize: 16,
-                                      ),
-                                    ),
+                                    isConvertGold
+                                        ? Text(
+                                            'CHỈ',
+                                            style: AppTextStyles.appbarTitle
+                                                .copyWith(
+                                              color: const Color(0xFFf7b60a),
+                                              fontWeight: FontWeight.w200,
+                                              fontSize: 16,
+                                            ),
+                                          )
+                                        : Text(
+                                            'VNĐ',
+                                            style: AppTextStyles.appbarTitle
+                                                .copyWith(
+                                              color: AppColor.textSafe,
+                                              fontWeight: FontWeight.w200,
+                                              fontSize: 16,
+                                            ),
+                                          ),
                                   ],
                                 )),
-                                Text(
-                                  '0',
-                                  style: AppTextStyles.appbarTitle.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w200,
-                                    fontSize: 16,
+                                Expanded(child: myTextField()),
+                                const SizedBox(width: 10),
+                                Positioned(
+                                  right: MediaQuery.of(context).size.width / 7,
+                                  top: MediaQuery.of(context).size.width / 20,
+                                  child: GestureDetector(
+                                    onTap: handleDelete,
+                                    onLongPress: () => handleDelete(true),
+                                    behavior: HitTestBehavior.translucent,
+                                    child: Icon(
+                                      Icons.backspace_rounded,
+                                      color: Colors.white,
+                                      size: MediaQuery.of(context).size.width /
+                                          18,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -152,31 +188,25 @@ class _CalculatePageState extends State<CalculatePage> {
                           ],
                         ),
 
-                        const SizedBox(
-                          height: 20,
-                        ),
-
-                        // Container(
-                        //   width: double.infinity,
-                        //   color: Colors.white,
-                        //   height: 1,
-                        // ),
-
                         LayoutBuilder(
-                          builder: (BuildContext context, BoxConstraints constraints) {  
+                          builder: (BuildContext context,
+                              BoxConstraints constraints) {
                             return Stack(
                               children: [
                                 const Row(
                                   children: [
                                     Expanded(
                                       child: Divider(
-                                        color: Colors.white,
+                                        color: AppColor.textSafe,
                                       ),
                                     ),
-                                    SizedBox(width: 40, height: 40,),
+                                    SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                    ),
                                     Expanded(
                                       child: Divider(
-                                        color: Colors.white,
+                                        color: AppColor.textSafe,
                                       ),
                                     ),
                                   ],
@@ -187,25 +217,29 @@ class _CalculatePageState extends State<CalculatePage> {
                                     height: 40,
                                     width: 40,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(color: Colors.white)
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                            color: AppColor.textSafe)),
+                                    child: IconButton(
+                                      padding: EdgeInsets.zero,
+                                      icon: const Icon(
+                                        Icons.swap_vert,
+                                        color: AppColor.textSafe,
+                                      ),
+                                      onPressed: () {
+                                        debugPrint('Button pressed');
+                                        setState(() {
+                                          isConvertGold = !isConvertGold;
+                                        });
+                                        keyboardController.clear();
+                                        result = '0';
+                                      },
                                     ),
-                                  child: IconButton(
-                                    padding: EdgeInsets.zero,
-                                    icon: const Icon(Icons.swap_vert, color: Colors.white,),
-                                    onPressed: () {
-                                      debugPrint('Button pressed');
-                                    },
                                   ),
-                                ),
                                 )
                               ],
                             );
                           },
-                        ),
-
-                        const SizedBox(
-                          height: 20,
                         ),
 
                         // ĐẾN
@@ -237,38 +271,70 @@ class _CalculatePageState extends State<CalculatePage> {
                                 Expanded(
                                     child: Row(
                                   children: [
-                                    Container(
-                                      width: 36,
-                                      height: 36,
-                                      decoration: BoxDecoration(
-                                          color: const Color(0xFFfff7e6),
-                                          borderRadius:
-                                              BorderRadius.circular(100)),
-                                      child: const Icon(
-                                        Icons.currency_exchange_rounded,
-                                        size: 28,
-                                        color: AppColor.textSafe,
-                                      ),
-                                    ),
+                                    isConvertGold
+                                        ? Container(
+                                            width: 36,
+                                            height: 36,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFFfff7e6),
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
+                                            child: const Icon(
+                                              Icons.currency_exchange_rounded,
+                                              size: 28,
+                                              color: AppColor.textSafe,
+                                            ),
+                                          )
+                                        : Container(
+                                            width: 36,
+                                            height: 36,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFFfff7e6),
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
+                                            child: const Icon(
+                                              Icons.bar_chart_rounded,
+                                              size: 28,
+                                              color: Color(0xFFf7b60a),
+                                            ),
+                                          ),
                                     const SizedBox(
                                       width: 10,
                                     ),
-                                    Text(
-                                      'VNĐ',
-                                      style: AppTextStyles.appbarTitle.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w200,
-                                        fontSize: 16,
-                                      ),
-                                    ),
+                                    isConvertGold
+                                        ? Text(
+                                            'VNĐ',
+                                            style: AppTextStyles.appbarTitle
+                                                .copyWith(
+                                              color: AppColor.textSafe,
+                                              fontWeight: FontWeight.w200,
+                                              fontSize: 16,
+                                            ),
+                                          )
+                                        : Text(
+                                            'CHỈ',
+                                            style: AppTextStyles.appbarTitle
+                                                .copyWith(
+                                              color: const Color(0xFFf7b60a),
+                                              fontWeight: FontWeight.w200,
+                                              fontSize: 16,
+                                            ),
+                                          ),
                                   ],
                                 )),
-                                Text(
-                                  '0',
-                                  style: AppTextStyles.appbarTitle.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w200,
-                                    fontSize: 16,
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                    right: 30,
+                                  ),
+                                  child: Text(
+                                    result,
+                                    style: AppTextStyles.appbarTitle.copyWith(
+                                      color: isConvertGold
+                                          ? AppColor.textSafe
+                                          : const Color(0xFFf7b60a),
+                                      fontWeight: FontWeight.w200,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -300,25 +366,57 @@ class _CalculatePageState extends State<CalculatePage> {
               ),
               MyElevatedButton(
                 onPressed: () async {
-                  if (keyboardController.text.trim().isEmpty) {
-                    isSuccess = false;
-                    showAlertDialog();
-                  } else if (RegExp(r'^0|[^\d]')
-                      .hasMatch(keyboardController.text.trim())) {
-                    isSuccess = false;
-                    showAlertDialog();
-                  } else {
-                    isSuccess = true;
-                    addStringToList(
-                        keyboardController.text.trim(), 'myAlertsCurrencyList');
-                    showAlertDialog();
-                  }
+                  // if (keyboardController.text.trim().isEmpty) {
+                  //   isSuccess = false;
+                  //   showAlertDialog();
+                  // } else if (RegExp(r'^0|[^\d]')
+                  //     .hasMatch(keyboardController.text.trim())) {
+                  //   isSuccess = false;
+                  //   showAlertDialog();
+                  // } else {
+                  //   isSuccess = true;
+                  //   // addStringToList(
+                  //   // keyboardController.text.trim(), 'myAlertsCurrencyList');
+                  //   showAlertDialog();
+                  //   isConvertGold ? convertGoldToPrice() : convertPriceToGold();
+                  // }
+
+                  isConvertGold ? convertGoldToPrice() : convertPriceToGold();
                 },
-                text: 'Tiếp tục',
+                text: 'Quy đổi',
               ),
             ],
           ),
         ));
+  }
+
+  void convertGoldToPrice() {
+    int? value = int.tryParse(keyboardController.text);
+
+    if (value != null) {
+      double total = value * 7500000;
+      setState(() {
+        result = total.toString();
+      });
+    } else {
+      print('Giá trị nhập vào không hợp lệ.');
+    }
+  }
+
+  void convertPriceToGold() {
+    String valueText = keyboardController.text;
+
+    double? value = double.tryParse(valueText);
+
+    if (value != null) {
+      double total = value / 7500000;
+
+      setState(() {
+        result = total.toStringAsFixed(3);
+      });
+    } else {
+      print('Giá trị nhập vào không hợp lệ.');
+    }
   }
 
   void showAlertDialog() {
@@ -379,18 +477,18 @@ class _CalculatePageState extends State<CalculatePage> {
                       backgroundColor: const Color(0xFF23a086),
                     ),
                     onPressed: () async {
-                      if (isSuccess) {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AlertPage()),
-                        );
-                      } else {
-                        Navigator.pop(context);
-                      }
+                      // if (isSuccess) {
+                      //   Navigator.pop(context);
+                      //   Navigator.pop(context);
+                      //   Navigator.pop(context);
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const AlertPage()),
+                      //   );
+                      // } else {
+                      //   Navigator.pop(context);
+                      // }
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -493,15 +591,24 @@ class _CalculatePageState extends State<CalculatePage> {
       scrollPhysics: const ClampingScrollPhysics(),
       keyboardType: TextInputType.none,
       showCursor: true,
-      textAlign: TextAlign.center,
-      style: AppTextStyles.txt16SemiBold.copyWith(
-        color: Colors.white,
-        fontSize: 36,
-        fontWeight: FontWeight.w800,
+      textAlign: TextAlign.right,
+      style: AppTextStyles.appbarTitle.copyWith(
+        color: isConvertGold ? const Color(0xFFf7b60a) : AppColor.textSafe,
+        fontWeight: FontWeight.w200,
+        fontSize: 16,
       ),
       onChanged: (value) {},
-      decoration: const InputDecoration.collapsed(hintText: ''),
+      decoration: InputDecoration.collapsed(
+        hintText: '0',
+        hintStyle: AppTextStyles.appbarTitle.copyWith(
+          color: isConvertGold ? const Color(0xFFf7b60a) : AppColor.textSafe,
+          fontWeight: FontWeight.w200,
+          fontSize: 16,
+        ),
+      ),
       autofocus: true,
+      cursorColor: Colors.white,
+      enableInteractiveSelection: false,
     );
   }
 

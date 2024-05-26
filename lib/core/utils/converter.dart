@@ -19,6 +19,11 @@ String formatDatetime(DateTime time) {
   return f.format(time).toString();
 }
 
+String formatNumber(int totalAmount) {
+  final formattedTotalAmount = NumberFormat('#,###').format(totalAmount);
+  return formattedTotalAmount;
+}
+
 double cvToDouble(dynamic value, [double defaultValue = 0.0]) {
   if (value is int) {
     return value.toDouble();

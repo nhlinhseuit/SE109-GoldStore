@@ -4,8 +4,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
+import 'package:se109_goldstore/data/mock_data.dart';
+import 'package:se109_goldstore/data/models/gold_news.dart';
 import 'package:se109_goldstore/presentations/common/components/page_title.dart';
 import 'package:se109_goldstore/presentations/common/components/tab_chart_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../common/components/page_header.dart';
 
@@ -343,82 +346,111 @@ class _ChartPageState extends State<ChartPage> {
 
   List<Widget> getNews() {
     List<Widget> listNews = [];
-    for (int i = 0; i < 5; i++) {
+    List<GoldNews> listNewsData = MockData.goldNews;
+
+    for (int index = 0; index < listNewsData.length; index++) {
       listNews.add(
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 120,
-          margin: const EdgeInsets.only(
-            bottom: 8,
-            left: 10,
-            right: 10,
-          ),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          child: Row(
-            children: [
-              Container(
-                width: 110,
-                height: 110,
-                margin: const EdgeInsets.only(
-                  left: 4,
-                ),
-                decoration: BoxDecoration(
-                    color: const Color(0xFFfff7e6),
-                    borderRadius: BorderRadius.circular(10)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
+        InkWell(
+          onTap: () {
+            _launchURL(listNewsData[index].link, false);
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 120,
+            margin: const EdgeInsets.only(
+              bottom: 8,
+              left: 10,
+              right: 10,
+            ),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              children: [
+                Container(
+                  width: 110,
+                  height: 110,
+                  margin: const EdgeInsets.only(
+                    left: 4,
+                  ),
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFfff7e6),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
                       fit: BoxFit.cover,
-                      'https://static01.nyt.com/images/2024/05/03/business/00China-Gold-02/00China-Gold-02-jumbo.jpg?quality=75&auto=webp'),
+                      listNewsData[index].img,
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 150,
-                    child: Text(
-                      'Gold at historic peak, auctions receive lukewarm reception',
-                      maxLines: 3,
-                      overflow: TextOverflow.fade,
-                      style: AppTextStyles.appbarTitle.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w200,
-                        fontSize: 14,
+                const SizedBox(
+                  width: 8,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 150,
+                      child: Text(
+                        listNewsData[index].title,
+                        maxLines: 2,
+                        overflow: TextOverflow.fade,
+                        style: AppTextStyles.appbarTitle.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w200,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 150,
-                    child: Text(
-                      'The rescheduled auction, held on April 23, only managed to sell 3400 taels, falling far short of the 16800 taels on offer',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.appbarTitle.copyWith(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w200,
-                        fontSize: 12,
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 150,
+                      child: Text(
+                        listNewsData[index].desc,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.appbarTitle.copyWith(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w200,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );
     }
     return listNews;
+  }
+
+  _launchURL(String link, bool inApp) async {
+    final Uri url = Uri.parse(link);
+    try {
+      if (inApp) {
+        if (!await launchUrl(
+          url,
+          mode: LaunchMode.inAppWebView,
+        )) {
+          throw Exception('Could not launch $url');
+        }
+      } else {
+        await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        );
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -564,5 +596,4 @@ class _ChartPageState extends State<ChartPage> {
       ],
     );
   }
-
 }
