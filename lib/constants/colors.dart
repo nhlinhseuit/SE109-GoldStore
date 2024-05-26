@@ -37,6 +37,9 @@ class AppColor {
   static const Color textSafe = Color(0xFF1FC794);
   static const Color textDanger = Color.fromARGB(255, 194, 79, 72);
 
+  static const Color textGold = Color(0xFFf7b60a);
+  static const Color textResult = Color.fromARGB(255, 249, 115, 160);
+
   static const Color royalBlue = Color(0xFF2675E2);
   static const Color mainColor = Color(0xFF394796);
 }

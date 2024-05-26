@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
+import 'package:se109_goldstore/core/utils/converter.dart';
 import 'package:se109_goldstore/data/shared_preferences.dart';
 import 'package:se109_goldstore/presentations/common/components/add_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
@@ -25,6 +26,8 @@ class _CalculatePageState extends State<CalculatePage> {
   final keyboardController = TextEditingController();
   final keyboardScroll = ScrollController();
   bool isConvertGold = true;
+  int currentGoldPrice = 7500000;
+  int currentUSDPrice = 23000;
   String result = '0';
 
   @override
@@ -44,359 +47,93 @@ class _CalculatePageState extends State<CalculatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        // appBar: AppBar(
-        //   centerTitle: true,
-        //   title: Text(
-        //     'Quy đổi vàng / tiền tệ',
-        //     style: AppTextStyles.appbarTitle,
-        //   ),
-        //   backgroundColor: AppColor.secondDark,
-        // ),
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: AppColor.primaryGradientBackground,
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 40.0),
-                child: Header(
-                  firstLine: "Quy đổi vàng",
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(
-                    left: 20,
-                    top: 5,
-                    right: 20,
-                    bottom: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0,
-                      vertical: 20,
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          selectedType == PriceType.GOLD ? calculateGold() : calculateUSD(),
+          Positioned(
+            top: 85,
+            right: 30,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  if (selectedType == PriceType.GOLD) {
+                    selectedType = PriceType.CURRENCY;
+                  } else {
+                    selectedType = PriceType.GOLD;
+                  }
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: AppColor.secondDark,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // TỪ
-                        Column(
+                    borderRadius: BorderRadius.circular(100)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8.0),
+                  child: selectedType == PriceType.GOLD
+                      ? Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8.0,
-                                bottom: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Từ',
-                                    style: AppTextStyles.appbarTitle.copyWith(
-                                      color: const Color.fromARGB(
-                                          255, 180, 180, 180),
-                                      fontWeight: FontWeight.w100,
-                                      fontSize: 13,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
+                            const Icon(
+                              Icons.currency_exchange_rounded,
+                              size: 30,
+                              color: AppColor.textSafe,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'USD',
+                              style: AppTextStyles.appbarTitle.copyWith(
+                                color: AppColor.textSafe,
+                                fontWeight: FontWeight.w200,
+                                fontSize: 16,
                               ),
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Row(
-                                  children: [
-                                    isConvertGold
-                                        ? Container(
-                                            width: 36,
-                                            height: 36,
-                                            decoration: BoxDecoration(
-                                                color: const Color(0xFFfff7e6),
-                                                borderRadius:
-                                                    BorderRadius.circular(100)),
-                                            child: const Icon(
-                                              Icons.bar_chart_rounded,
-                                              size: 28,
-                                              color: Color(0xFFf7b60a),
-                                            ),
-                                          )
-                                        : Container(
-                                            width: 36,
-                                            height: 36,
-                                            decoration: BoxDecoration(
-                                                color: const Color(0xFFfff7e6),
-                                                borderRadius:
-                                                    BorderRadius.circular(100)),
-                                            child: const Icon(
-                                              Icons.currency_exchange_rounded,
-                                              size: 28,
-                                              color: AppColor.textSafe,
-                                            ),
-                                          ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    isConvertGold
-                                        ? Text(
-                                            'CHỈ',
-                                            style: AppTextStyles.appbarTitle
-                                                .copyWith(
-                                              color: const Color(0xFFf7b60a),
-                                              fontWeight: FontWeight.w200,
-                                              fontSize: 16,
-                                            ),
-                                          )
-                                        : Text(
-                                            'VNĐ',
-                                            style: AppTextStyles.appbarTitle
-                                                .copyWith(
-                                              color: AppColor.textSafe,
-                                              fontWeight: FontWeight.w200,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                  ],
-                                )),
-                                Expanded(child: myTextField()),
-                                const SizedBox(width: 10),
-                                Positioned(
-                                  right: MediaQuery.of(context).size.width / 7,
-                                  top: MediaQuery.of(context).size.width / 20,
-                                  child: GestureDetector(
-                                    onTap: handleDelete,
-                                    onLongPress: () => handleDelete(true),
-                                    behavior: HitTestBehavior.translucent,
-                                    child: Icon(
-                                      Icons.backspace_rounded,
-                                      color: Colors.white,
-                                      size: MediaQuery.of(context).size.width /
-                                          18,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            const Icon(
+                              Icons.bar_chart_rounded,
+                              size: 30,
+                              color: AppColor.textGold,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'CHỈ',
+                              style: AppTextStyles.appbarTitle.copyWith(
+                                color: AppColor.textGold,
+                                fontWeight: FontWeight.w200,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 2,
                             ),
                           ],
                         ),
-
-                        LayoutBuilder(
-                          builder: (BuildContext context,
-                              BoxConstraints constraints) {
-                            return Stack(
-                              children: [
-                                const Row(
-                                  children: [
-                                    Expanded(
-                                      child: Divider(
-                                        color: AppColor.textSafe,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 40,
-                                      height: 40,
-                                    ),
-                                    Expanded(
-                                      child: Divider(
-                                        color: AppColor.textSafe,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Positioned(
-                                  left: constraints.maxWidth / 2 - 20,
-                                  child: Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                            color: AppColor.textSafe)),
-                                    child: IconButton(
-                                      padding: EdgeInsets.zero,
-                                      icon: const Icon(
-                                        Icons.swap_vert,
-                                        color: AppColor.textSafe,
-                                      ),
-                                      onPressed: () {
-                                        debugPrint('Button pressed');
-                                        setState(() {
-                                          isConvertGold = !isConvertGold;
-                                        });
-                                        keyboardController.clear();
-                                        result = '0';
-                                      },
-                                    ),
-                                  ),
-                                )
-                              ],
-                            );
-                          },
-                        ),
-
-                        // ĐẾN
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8.0,
-                                bottom: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Đến',
-                                    style: AppTextStyles.appbarTitle.copyWith(
-                                      color: const Color.fromARGB(
-                                          255, 180, 180, 180),
-                                      fontWeight: FontWeight.w100,
-                                      fontSize: 13,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Row(
-                                  children: [
-                                    isConvertGold
-                                        ? Container(
-                                            width: 36,
-                                            height: 36,
-                                            decoration: BoxDecoration(
-                                                color: const Color(0xFFfff7e6),
-                                                borderRadius:
-                                                    BorderRadius.circular(100)),
-                                            child: const Icon(
-                                              Icons.currency_exchange_rounded,
-                                              size: 28,
-                                              color: AppColor.textSafe,
-                                            ),
-                                          )
-                                        : Container(
-                                            width: 36,
-                                            height: 36,
-                                            decoration: BoxDecoration(
-                                                color: const Color(0xFFfff7e6),
-                                                borderRadius:
-                                                    BorderRadius.circular(100)),
-                                            child: const Icon(
-                                              Icons.bar_chart_rounded,
-                                              size: 28,
-                                              color: Color(0xFFf7b60a),
-                                            ),
-                                          ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    isConvertGold
-                                        ? Text(
-                                            'VNĐ',
-                                            style: AppTextStyles.appbarTitle
-                                                .copyWith(
-                                              color: AppColor.textSafe,
-                                              fontWeight: FontWeight.w200,
-                                              fontSize: 16,
-                                            ),
-                                          )
-                                        : Text(
-                                            'CHỈ',
-                                            style: AppTextStyles.appbarTitle
-                                                .copyWith(
-                                              color: const Color(0xFFf7b60a),
-                                              fontWeight: FontWeight.w200,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                  ],
-                                )),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                    right: 30,
-                                  ),
-                                  child: Text(
-                                    result,
-                                    style: AppTextStyles.appbarTitle.copyWith(
-                                      color: isConvertGold
-                                          ? AppColor.textSafe
-                                          : const Color(0xFFf7b60a),
-                                      fontWeight: FontWeight.w200,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
-              LayoutGrid(
-                columnSizes: const [auto, auto, auto],
-                rowSizes: const [auto, auto, auto, auto],
-                columnGap: 40,
-                rowGap: 5,
-                gridFit: GridFit.loose,
-                children: List.generate(
-                  symbols.length,
-                  (index) => NumberButton(
-                    keyboardNumber: symbols[index],
-                    keyboardCharacter: _getCharacters(symbols[index]),
-                    onTap: handleInsert,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              MyElevatedButton(
-                onPressed: () async {
-                  // if (keyboardController.text.trim().isEmpty) {
-                  //   isSuccess = false;
-                  //   showAlertDialog();
-                  // } else if (RegExp(r'^0|[^\d]')
-                  //     .hasMatch(keyboardController.text.trim())) {
-                  //   isSuccess = false;
-                  //   showAlertDialog();
-                  // } else {
-                  //   isSuccess = true;
-                  //   // addStringToList(
-                  //   // keyboardController.text.trim(), 'myAlertsCurrencyList');
-                  //   showAlertDialog();
-                  //   isConvertGold ? convertGoldToPrice() : convertPriceToGold();
-                  // }
-
-                  isConvertGold ? convertGoldToPrice() : convertPriceToGold();
-                },
-                text: 'Quy đổi',
-              ),
-            ],
-          ),
-        ));
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   void convertGoldToPrice() {
     int? value = int.tryParse(keyboardController.text);
 
     if (value != null) {
-      double total = value * 7500000;
+      int total = value * currentGoldPrice;
       setState(() {
-        result = total.toString();
+        result = formatNumber(total).toString();
       });
     } else {
       print('Giá trị nhập vào không hợp lệ.');
@@ -409,10 +146,39 @@ class _CalculatePageState extends State<CalculatePage> {
     double? value = double.tryParse(valueText);
 
     if (value != null) {
-      double total = value / 7500000;
+      double total = value / currentGoldPrice;
 
       setState(() {
-        result = total.toStringAsFixed(3);
+        result = total.toStringAsFixed(2);
+      });
+    } else {
+      print('Giá trị nhập vào không hợp lệ.');
+    }
+  }
+
+  void convertUSDToPrice() {
+    int? value = int.tryParse(keyboardController.text);
+
+    if (value != null) {
+      int total = value * currentUSDPrice;
+      setState(() {
+        result = formatNumber(total).toString();
+      });
+    } else {
+      print('Giá trị nhập vào không hợp lệ.');
+    }
+  }
+
+  void convertPriceToUSD() {
+    String valueText = keyboardController.text;
+
+    double? value = double.tryParse(valueText);
+
+    if (value != null) {
+      double total = value / currentUSDPrice;
+
+      setState(() {
+        result = total.toStringAsFixed(2);
       });
     } else {
       print('Giá trị nhập vào không hợp lệ.');
@@ -584,7 +350,7 @@ class _CalculatePageState extends State<CalculatePage> {
     );
   }
 
-  Widget myTextField() {
+  Widget myTextField(var selectedType) {
     return TextField(
       controller: keyboardController,
       scrollController: keyboardScroll,
@@ -593,7 +359,11 @@ class _CalculatePageState extends State<CalculatePage> {
       showCursor: true,
       textAlign: TextAlign.right,
       style: AppTextStyles.appbarTitle.copyWith(
-        color: isConvertGold ? const Color(0xFFf7b60a) : AppColor.textSafe,
+        color: isConvertGold
+            ? selectedType == PriceType.GOLD
+                ? AppColor.textGold
+                : AppColor.textSafe
+            : AppColor.textResult,
         fontWeight: FontWeight.w200,
         fontSize: 16,
       ),
@@ -601,7 +371,11 @@ class _CalculatePageState extends State<CalculatePage> {
       decoration: InputDecoration.collapsed(
         hintText: '0',
         hintStyle: AppTextStyles.appbarTitle.copyWith(
-          color: isConvertGold ? const Color(0xFFf7b60a) : AppColor.textSafe,
+          color: isConvertGold
+              ? selectedType == PriceType.GOLD
+                  ? AppColor.textGold
+                  : AppColor.textSafe
+              : AppColor.textResult,
           fontWeight: FontWeight.w200,
           fontSize: 16,
         ),
@@ -630,5 +404,711 @@ class _CalculatePageState extends State<CalculatePage> {
       '#': '',
     };
     return numberToCharacters[number] ?? '';
+  }
+
+  Widget calculateGold() {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: AppColor.primaryGradientBackground,
+      ),
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 40.0),
+            child: Header(
+              firstLine: "Quy đổi",
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(
+                left: 20,
+                top: 5,
+                right: 20,
+                bottom: 10,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15.0,
+                  vertical: 20,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // TỪ
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8.0,
+                            bottom: 10,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Từ',
+                                style: AppTextStyles.appbarTitle.copyWith(
+                                  color:
+                                      const Color.fromARGB(255, 180, 180, 180),
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 13,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: isConvertGold
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 0.0,
+                                          vertical: 2,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 36,
+                                              height: 36,
+                                              decoration: BoxDecoration(
+                                                  color:
+                                                      const Color(0xFFfff7e6),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100)),
+                                              child: const Icon(
+                                                Icons.bar_chart_rounded,
+                                                size: 20,
+                                                color: AppColor.textGold,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              'CHỈ',
+                                              style: AppTextStyles.appbarTitle
+                                                  .copyWith(
+                                                color: AppColor.textGold,
+                                                fontWeight: FontWeight.w200,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Row(
+                                        children: [
+                                          Container(
+                                            width: 36,
+                                            height: 36,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFFfff7e6),
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
+                                            child: const Icon(
+                                              Icons.star_rounded,
+                                              size: 20,
+                                              color: AppColor.textResult,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            'VNĐ',
+                                            style: AppTextStyles.appbarTitle
+                                                .copyWith(
+                                              color: AppColor.textResult,
+                                              fontWeight: FontWeight.w200,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                            Expanded(
+                                child:
+                                    myTextField(selectedType = PriceType.GOLD)),
+                            const SizedBox(width: 10),
+                            Positioned(
+                              right: MediaQuery.of(context).size.width / 7,
+                              top: MediaQuery.of(context).size.width / 20,
+                              child: GestureDetector(
+                                onTap: handleDelete,
+                                onLongPress: () => handleDelete(true),
+                                behavior: HitTestBehavior.translucent,
+                                child: Icon(
+                                  Icons.backspace_rounded,
+                                  color: Colors.white,
+                                  size: MediaQuery.of(context).size.width / 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        return Stack(
+                          children: [
+                            const Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                    color: AppColor.textSafe,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    color: AppColor.textSafe,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Positioned(
+                              left: constraints.maxWidth / 2 - 20,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border:
+                                        Border.all(color: AppColor.textSafe)),
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                    Icons.swap_vert,
+                                    color: AppColor.textSafe,
+                                  ),
+                                  onPressed: () {
+                                    debugPrint('Button pressed');
+                                    setState(() {
+                                      isConvertGold = !isConvertGold;
+                                    });
+                                    keyboardController.clear();
+                                    result = '0';
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    ),
+
+                    // ĐẾN
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8.0,
+                            bottom: 10,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Đến',
+                                style: AppTextStyles.appbarTitle.copyWith(
+                                  color:
+                                      const Color.fromARGB(255, 180, 180, 180),
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 13,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: Row(
+                              children: [
+                                isConvertGold
+                                    ? Container(
+                                        width: 36,
+                                        height: 36,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xFFfff7e6),
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        child: const Icon(
+                                          Icons.star_rate_rounded,
+                                          size: 20,
+                                          color: AppColor.textResult,
+                                        ),
+                                      )
+                                    : Container(
+                                        width: 36,
+                                        height: 36,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xFFfff7e6),
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        child: const Icon(
+                                          Icons.bar_chart_rounded,
+                                          size: 20,
+                                          color: AppColor.textGold,
+                                        ),
+                                      ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                isConvertGold
+                                    ? Text(
+                                        'VNĐ',
+                                        style:
+                                            AppTextStyles.appbarTitle.copyWith(
+                                          color: AppColor.textResult,
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 16,
+                                        ),
+                                      )
+                                    : Text(
+                                        'CHỈ',
+                                        style:
+                                            AppTextStyles.appbarTitle.copyWith(
+                                          color: AppColor.textGold,
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                              ],
+                            )),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                right: 30,
+                              ),
+                              child: Text(
+                                result,
+                                style: AppTextStyles.appbarTitle.copyWith(
+                                  color: isConvertGold
+                                      ? AppColor.textResult
+                                      : AppColor.textGold,
+                                  fontWeight: FontWeight.w200,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          LayoutGrid(
+            columnSizes: const [auto, auto, auto],
+            rowSizes: const [auto, auto, auto, auto],
+            columnGap: 40,
+            rowGap: 5,
+            gridFit: GridFit.loose,
+            children: List.generate(
+              symbols.length,
+              (index) => NumberButton(
+                keyboardNumber: symbols[index],
+                keyboardCharacter: _getCharacters(symbols[index]),
+                onTap: handleInsert,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          MyElevatedButton(
+            onPressed: () async {
+              // if (keyboardController.text.trim().isEmpty) {
+              //   isSuccess = false;
+              //   showAlertDialog();
+              // } else if (RegExp(r'^0|[^\d]')
+              //     .hasMatch(keyboardController.text.trim())) {
+              //   isSuccess = false;
+              //   showAlertDialog();
+              // } else {
+              //   isSuccess = true;
+              //   // addStringToList(
+              //   // keyboardController.text.trim(), 'myAlertsCurrencyList');
+              //   showAlertDialog();
+              //   isConvertGold ? convertGoldToPrice() : convertPriceToGold();
+              // }
+
+              isConvertGold ? convertGoldToPrice() : convertPriceToGold();
+            },
+            text: 'Quy đổi',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget calculateUSD() {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: AppColor.primaryGradientBackground,
+      ),
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 40.0),
+            child: Header(
+              firstLine: "Quy đổi",
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(
+                left: 20,
+                top: 5,
+                right: 20,
+                bottom: 10,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15.0,
+                  vertical: 20,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // TỪ
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8.0,
+                            bottom: 10,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Từ',
+                                style: AppTextStyles.appbarTitle.copyWith(
+                                  color:
+                                      const Color.fromARGB(255, 180, 180, 180),
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 13,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: isConvertGold
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 0.0,
+                                          vertical: 2,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 36,
+                                              height: 36,
+                                              decoration: BoxDecoration(
+                                                  color:
+                                                      const Color(0xFFfff7e6),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100)),
+                                              child: const Icon(
+                                                Icons.currency_exchange_rounded,
+                                                size: 20,
+                                                color: AppColor.textSafe,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              'USD',
+                                              style: AppTextStyles.appbarTitle
+                                                  .copyWith(
+                                                color: AppColor.textSafe,
+                                                fontWeight: FontWeight.w200,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Row(
+                                        children: [
+                                          Container(
+                                            width: 36,
+                                            height: 36,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFFfff7e6),
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
+                                            child: const Icon(
+                                              Icons.star_rounded,
+                                              size: 20,
+                                              color: AppColor.textResult,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            'VNĐ',
+                                            style: AppTextStyles.appbarTitle
+                                                .copyWith(
+                                              color: AppColor.textResult,
+                                              fontWeight: FontWeight.w200,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                            Expanded(
+                                child: myTextField(
+                                    selectedType = PriceType.CURRENCY)),
+                            const SizedBox(width: 10),
+                            Positioned(
+                              right: MediaQuery.of(context).size.width / 7,
+                              top: MediaQuery.of(context).size.width / 20,
+                              child: GestureDetector(
+                                onTap: handleDelete,
+                                onLongPress: () => handleDelete(true),
+                                behavior: HitTestBehavior.translucent,
+                                child: Icon(
+                                  Icons.backspace_rounded,
+                                  color: Colors.white,
+                                  size: MediaQuery.of(context).size.width / 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        return Stack(
+                          children: [
+                            const Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                    color: AppColor.textSafe,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    color: AppColor.textSafe,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Positioned(
+                              left: constraints.maxWidth / 2 - 20,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border:
+                                        Border.all(color: AppColor.textSafe)),
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                    Icons.swap_vert,
+                                    color: AppColor.textSafe,
+                                  ),
+                                  onPressed: () {
+                                    debugPrint('Button pressed');
+                                    setState(() {
+                                      isConvertGold = !isConvertGold;
+                                    });
+                                    keyboardController.clear();
+                                    result = '0';
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    ),
+
+                    // ĐẾN
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8.0,
+                            bottom: 10,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Đến',
+                                style: AppTextStyles.appbarTitle.copyWith(
+                                  color:
+                                      const Color.fromARGB(255, 180, 180, 180),
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 13,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: Row(
+                              children: [
+                                isConvertGold
+                                    ? Container(
+                                        width: 36,
+                                        height: 36,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xFFfff7e6),
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        child: const Icon(
+                                          Icons.star_rate_rounded,
+                                          size: 20,
+                                          color: AppColor.textResult,
+                                        ),
+                                      )
+                                    : Container(
+                                        width: 36,
+                                        height: 36,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xFFfff7e6),
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        child: const Icon(
+                                          Icons.currency_exchange_rounded,
+                                          size: 20,
+                                          color: AppColor.textSafe,
+                                        ),
+                                      ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                isConvertGold
+                                    ? Text(
+                                        'VNĐ',
+                                        style:
+                                            AppTextStyles.appbarTitle.copyWith(
+                                          color: AppColor.textResult,
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 16,
+                                        ),
+                                      )
+                                    : Text(
+                                        'USD',
+                                        style:
+                                            AppTextStyles.appbarTitle.copyWith(
+                                          color: AppColor.textSafe,
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                              ],
+                            )),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                right: 30,
+                              ),
+                              child: Text(
+                                result,
+                                style: AppTextStyles.appbarTitle.copyWith(
+                                  color: isConvertGold
+                                      ? AppColor.textResult
+                                      : AppColor.textSafe,
+                                  fontWeight: FontWeight.w200,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          LayoutGrid(
+            columnSizes: const [auto, auto, auto],
+            rowSizes: const [auto, auto, auto, auto],
+            columnGap: 40,
+            rowGap: 5,
+            gridFit: GridFit.loose,
+            children: List.generate(
+              symbols.length,
+              (index) => NumberButton(
+                keyboardNumber: symbols[index],
+                keyboardCharacter: _getCharacters(symbols[index]),
+                onTap: handleInsert,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          MyElevatedButton(
+            onPressed: () async {
+              // if (keyboardController.text.trim().isEmpty) {
+              //   isSuccess = false;
+              //   showAlertDialog();
+              // } else if (RegExp(r'^0|[^\d]')
+              //     .hasMatch(keyboardController.text.trim())) {
+              //   isSuccess = false;
+              //   showAlertDialog();
+              // } else {
+              //   isSuccess = true;
+              //   // addStringToList(
+              //   // keyboardController.text.trim(), 'myAlertsCurrencyList');
+              //   showAlertDialog();
+              //   isConvertGold ? convertGoldToPrice() : convertPriceToGold();
+              // }
+
+              isConvertGold ? convertUSDToPrice() : convertPriceToUSD();
+            },
+            text: 'Quy đổi',
+          ),
+        ],
+      ),
+    );
   }
 }
