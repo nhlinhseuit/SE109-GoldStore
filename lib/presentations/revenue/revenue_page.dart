@@ -109,31 +109,62 @@ class _RevenuePageState extends State<RevenuePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        elevation: 0.0,
-        shape: const CircleBorder(
-          side: BorderSide(
-            color: Colors.white, // Border color
-            width: 3.0, // Border width
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            elevation: 0.0,
+            shape: const CircleBorder(
+              side: BorderSide(
+                color: Colors.white, // Border color
+                width: 3.0, // Border width
+              ),
+            ),
+            backgroundColor: AppColor.textSafe,
+            onPressed: () {
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => AddHistory(valueNotifier: valueNotifier),
+              //     ));
+            },
+            child: const Icon(
+              Icons.alarm,
+              color: Colors.white,
+              weight: 4,
+            ),
           ),
-        ),
-        backgroundColor: AppColor.secondDark,
-        onPressed: () {
-          // removeAllFromList('myDateHistoryList');
-          // removeAllFromList('myQuantityHistoryList');
-          // mapHistory.clear();
+          const SizedBox(
+            height: 20,
+          ),
+          FloatingActionButton(
+            elevation: 0.0,
+            shape: const CircleBorder(
+              side: BorderSide(
+                color: Colors.white, // Border color
+                width: 3.0, // Border width
+              ),
+            ),
+            backgroundColor: AppColor.secondDark,
+            onPressed: () {
+              // removeAllFromList('myDateHistoryList');
+              // removeAllFromList('myQuantityHistoryList');
+              // mapHistory.clear();
 
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddHistory(valueNotifier: valueNotifier),
-              ));
-        },
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-          weight: 4,
-        ),
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        AddHistory(valueNotifier: valueNotifier),
+                  ));
+            },
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+              weight: 4,
+            ),
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: initSync,
