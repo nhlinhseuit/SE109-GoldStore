@@ -1,15 +1,20 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:se109_goldstore/constants/routers.dart';
+import 'package:se109_goldstore/data/repositories/daily_price/services/firebase_api.dart';
 import 'package:se109_goldstore/presentations/home/home_page.dart';
+import 'package:se109_goldstore/presentations/revenue/notification_page.dart';
 
 import 'constants/colors.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]); // Sử dụng SystemUiOverlay.top
 
@@ -21,6 +26,18 @@ void main() {
           Brightness.light, // Đặt màu của các biểu tượng trên thanh trạng thái
     ),
   );
+
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey:
+          'AIzaSyCpKPaEwroREo5oM9ZhLwuWnGRz6oFRKvc', // paste your api key here
+      appId:
+          '1:1024287017546:android:2e46256e8a7936039134b3', //paste your app id here
+      messagingSenderId: '1024287017546', //paste your messagingSenderId here
+      projectId: 'stylle', //paste your project id here
+    ),
+  );
+  await FirebaseApi().initNotifications();
 
   runApp(const MyApp());
 }
@@ -35,7 +52,9 @@ class MyApp extends StatelessWidget {
       home: const Splash(),
       routes: {
         AppRouter.priceStatistic: (context) => const Placeholder(),
+        NotificationPage.route: (context) => const NotificationPage(),
       },
+      navigatorKey: navigatorKey,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.black,
         // brightness: Brightness.dark,
