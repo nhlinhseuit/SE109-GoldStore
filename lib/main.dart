@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:se109_goldstore/constants/routers.dart';
 import 'package:se109_goldstore/data/repositories/daily_price/services/firebase_api.dart';
 import 'package:se109_goldstore/presentations/home/home_page.dart';
+import 'package:se109_goldstore/presentations/revenue/notification_page.dart';
 
 import 'constants/colors.dart';
 
@@ -51,7 +52,9 @@ class MyApp extends StatelessWidget {
       home: const Splash(),
       routes: {
         AppRouter.priceStatistic: (context) => const Placeholder(),
+        NotificationPage.route: (context) => const NotificationPage(),
       },
+      navigatorKey: navigatorKey,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.black,
         // brightness: Brightness.dark,

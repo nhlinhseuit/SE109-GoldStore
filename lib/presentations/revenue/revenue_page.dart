@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +16,7 @@ import 'package:se109_goldstore/presentations/common/components/price_table.dart
 import 'package:se109_goldstore/presentations/general/price_page.dart';
 import 'package:se109_goldstore/presentations/common/components/history_item.dart';
 import 'package:se109_goldstore/presentations/revenue/add_history.dart';
+import 'package:se109_goldstore/presentations/revenue/notification_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common/components/page_header.dart';
@@ -59,8 +61,6 @@ class _RevenuePageState extends State<RevenuePage> {
     myDateHistoryList = prefs.getStringList('myDateHistoryList') ?? [];
     myQuantityHistoryList = prefs.getStringList('myQuantityHistoryList') ?? [];
 
-    print('initSync myDateHistoryList $myDateHistoryList');
-    print('initSync myQuantityHistoryList $myQuantityHistoryList');
 
     // tính tổng số lượng vàng
     totalQuantity = 0;
@@ -80,7 +80,6 @@ class _RevenuePageState extends State<RevenuePage> {
       mapHistory = sortMapHistory(mapHistoryFunc);
     });
 
-    print('initSync mapHistory $mapHistory');
   }
 
   Map<String, List<String>> sortMapHistory(Map<String, List<String>> map) {
@@ -108,6 +107,9 @@ class _RevenuePageState extends State<RevenuePage> {
 
   @override
   Widget build(BuildContext context) {
+    // final RemoteMessage message =
+    //     ModalRoute.of(context)!.settings.arguments as RemoteMessage;
+
     return Scaffold(
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -122,11 +124,12 @@ class _RevenuePageState extends State<RevenuePage> {
             ),
             backgroundColor: AppColor.textSafe,
             onPressed: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //       builder: (context) => AddHistory(valueNotifier: valueNotifier),
-              //     ));
+              
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationPage(),
+                  ));
             },
             child: const Icon(
               Icons.alarm,
