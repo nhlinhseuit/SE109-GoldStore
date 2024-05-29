@@ -17,6 +17,7 @@ void main() async {
       overlays: [SystemUiOverlay.top]); // Sử dụng SystemUiOverlay.top
 
   await Firebase.initializeApp(
+    name: 'linhlochuu',                                                                                                         
     options: const FirebaseOptions(
       apiKey:
           'AIzaSyCpKPaEwroREo5oM9ZhLwuWnGRz6oFRKvc', // paste your api key here
@@ -26,13 +27,13 @@ void main() async {
       projectId: 'stylle', //paste your project id here
     ),
   );
-  await FirebaseApi().initNotifications();
+  await FirebaseApi().initNotifications();                                                                                                                                                                                    
 
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key});                                                                          
 
   @override
   Widget build(BuildContext context) {

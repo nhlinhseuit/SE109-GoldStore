@@ -18,6 +18,9 @@ class ChartPage extends StatefulWidget {
 
 class _ChartPageState extends State<ChartPage> {
   late int numberOfItem;
+  int index = 0;
+  late Widget Function(double, TitleMeta) getBottomTitleWidget =
+      bottomTitleWidgets;
 
   @override
   void initState() {
@@ -29,9 +32,69 @@ class _ChartPageState extends State<ChartPage> {
     super.dispose();
   }
 
+  late List<LineChartBarData> lineBarsDataChart = [
+    LineChartBarData(
+      spots: const [
+        FlSpot(0, 4),
+        FlSpot(5, 3),
+        FlSpot(10, 3.5),
+      ],
+      isCurved: true,
+      gradient: LinearGradient(
+        colors: gradientColors,
+      ),
+      barWidth: 2,
+      isStrokeCapRound: true,
+      dotData: const FlDotData(
+        show: false,
+      ),
+      // belowBarData: BarAreaData(
+      //   show: true,
+      //   gradient: LinearGradient(
+      //     begin: Alignment.topCenter,
+      //     end: Alignment.bottomCenter,
+      //     colors: gradientColors
+      //         .map((color) => color.withOpacity(0.6))
+      //         .toList(),
+      //   ),
+      // ),
+    ),
+    LineChartBarData(
+      spots: const [
+        FlSpot(0, 2),
+        FlSpot(5, 4),
+        FlSpot(10, 3),
+      ],
+      isCurved: true,
+      gradient: const LinearGradient(
+        colors: [Colors.blue, Colors.lightBlueAccent],
+      ),
+      barWidth: 2,
+      isStrokeCapRound: true,
+      dotData: const FlDotData(
+        show: false,
+      ),
+      // belowBarData: BarAreaData(
+      //   show: true,
+      //   gradient: LinearGradient(
+      //     begin: Alignment.topCenter,
+      //     end: Alignment.bottomCenter,
+      //     colors: gradientColors2
+      //         .map((color) => color.withOpacity(0.6))
+      //         .toList(),
+      //   ),
+      // ),
+    ),
+  ];
+
   List<Color> gradientColors = [
     const Color(0xFFffe45e),
     const Color(0xFFBF974F),
+  ];
+
+  List<Color> gradientColors2 = [
+    AppColor.textSafe,
+    const Color.fromARGB(255, 17, 108, 80),
   ];
 
   int isSelected = 1;
@@ -59,9 +122,7 @@ class _ChartPageState extends State<ChartPage> {
               children: [
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      isSelected = 1;
-                    });
+                    handleSelect(1);
                   },
                   child: TabChartButton(
                     text: '1D',
@@ -71,9 +132,7 @@ class _ChartPageState extends State<ChartPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      isSelected = 2;
-                    });
+                    handleSelect(2);
                   },
                   child: TabChartButton(
                     text: '7D',
@@ -83,9 +142,7 @@ class _ChartPageState extends State<ChartPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      isSelected = 3;
-                    });
+                    handleSelect(3);
                   },
                   child: TabChartButton(
                     text: '1M',
@@ -95,9 +152,7 @@ class _ChartPageState extends State<ChartPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      isSelected = 4;
-                    });
+                    handleSelect(4);
                   },
                   child: TabChartButton(
                     text: '3M',
@@ -107,9 +162,7 @@ class _ChartPageState extends State<ChartPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      isSelected = 5;
-                    });
+                    handleSelect(5);
                   },
                   child: TabChartButton(
                     text: '1Y',
@@ -171,9 +224,7 @@ class _ChartPageState extends State<ChartPage> {
                   height: 18,
                   width: 18,
                   decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF00c183),
-                  ),
+                      shape: BoxShape.circle, color: Colors.blue),
                 ),
                 const SizedBox(
                   width: 10,
@@ -187,7 +238,7 @@ class _ChartPageState extends State<ChartPage> {
                   width: 18,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xFFa7443e),
+                    color: Color(0xFFBF974F),
                   ),
                 ),
                 const SizedBox(
@@ -252,7 +303,7 @@ class _ChartPageState extends State<ChartPage> {
                       width: 30,
                     ),
                     const Text(
-                      '26.000VND',
+                      '91,000.000 VND',
                       style: TextStyle(
                         fontSize: 13,
                         color: AppColor.textNormal,
@@ -301,7 +352,7 @@ class _ChartPageState extends State<ChartPage> {
                       width: 30,
                     ),
                     const Text(
-                      '23.000VND',
+                      '80.800.000VND',
                       style: TextStyle(
                         fontSize: 13,
                         color: AppColor.textNormal,
@@ -316,18 +367,10 @@ class _ChartPageState extends State<ChartPage> {
           const SizedBox(
             height: 48,
           ),
-          Container(
-            height: 4,
-            width: MediaQuery.of(context).size.width,
-            color: const Color.fromARGB(255, 63, 63, 63),
-          ),
 
           // TIN TUC
           const SizedBox(
             height: 30,
-          ),
-          const SizedBox(
-            height: 20,
           ),
         ]),
       ),
@@ -367,6 +410,205 @@ class _ChartPageState extends State<ChartPage> {
     );
   }
 
+  Widget bottomTitleWidgets1D(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 10,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 2:
+        text = const Text('8h', style: style);
+        break;
+      case 5:
+        text = const Text('14h', style: style);
+        break;
+      case 8:
+        text = const Text('20h', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  Widget bottomTitleWidgets7D(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 10,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 2:
+        text = const Text('25/05', style: style);
+        break;
+      case 4:
+        text = const Text('26/05', style: style);
+        break;
+      case 6:
+        text = const Text('28/05', style: style);
+        break;
+      case 8:
+        text = const Text('30/05', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  Widget bottomTitleWidgets1M(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 10,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 1:
+        text = const Text('5/05', style: style);
+        break;
+      case 3:
+        text = const Text('10/05', style: style);
+        break;
+      case 5:
+        text = const Text('15/05', style: style);
+        break;
+      case 7:
+        text = const Text('20/05', style: style);
+        break;
+      case 9:
+        text = const Text('25/05', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  Widget bottomTitleWidgets3M(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 8,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 1:
+        text = const Text('5/05', style: style);
+        break;
+      case 3:
+        text = const Text('10/05', style: style);
+        break;
+      case 5:
+        text = const Text('15/05', style: style);
+        break;
+      case 7:
+        text = const Text('20/05', style: style);
+        break;
+      case 9:
+        text = const Text('25/05', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  Widget bottomTitleWidgets1Y(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 8,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 1:
+        text = const Text('5/03', style: style);
+        break;
+      case 3:
+        text = const Text('15/03', style: style);
+        break;
+      case 5:
+        text = const Text('5/04', style: style);
+        break;
+      case 7:
+        text = const Text('15/04', style: style);
+        break;
+      case 9:
+        text = const Text('10/05', style: style);
+        break;
+      default:
+        text = const Text('', style: style);
+        break;
+    }
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: text,
+    );
+  }
+
+  void handleSelect(int index) {
+    setState(() {
+      isSelected = index;
+    });
+
+    switch (index) {
+      case 1:
+        setState(() {
+          lineBarsDataChart = listLineChartBarData1D();
+          getBottomTitleWidget = bottomTitleWidgets1D;
+        });
+        break;
+      case 2:
+        setState(() {
+          lineBarsDataChart = listLineChartBarData7D();
+          getBottomTitleWidget = bottomTitleWidgets7D;
+        });
+        break;
+      case 3:
+        setState(() {
+          lineBarsDataChart = listLineChartBarData1M();
+          getBottomTitleWidget = bottomTitleWidgets1M;
+        });
+        break;
+      case 4:
+        setState(() {
+          lineBarsDataChart = listLineChartBarData3M();
+          getBottomTitleWidget = bottomTitleWidgets3M;
+        });
+        break;
+      case 5:
+        setState(() {
+          lineBarsDataChart = listLineChartBarData1Y();
+          getBottomTitleWidget = bottomTitleWidgets1Y;
+        });
+        break;
+      default:
+        setState(() {
+          lineBarsDataChart = [];
+        });
+    }
+  }
+
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
@@ -375,13 +617,13 @@ class _ChartPageState extends State<ChartPage> {
     String text;
     switch (value.toInt()) {
       case 1:
-        text = '16.000';
+        text = '80Tr';
         break;
       case 3:
-        text = '18.000';
+        text = '84Tr';
         break;
       case 5:
-        text = '18.000';
+        text = '91.5Tr';
         break;
       default:
         return Container();
@@ -423,7 +665,7 @@ class _ChartPageState extends State<ChartPage> {
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: getBottomTitleWidget,
           ),
         ),
         leftTitles: AxisTitles(
@@ -440,41 +682,317 @@ class _ChartPageState extends State<ChartPage> {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: 10,
       minY: 0,
       maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
-          barWidth: 2,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.6))
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
+      lineBarsData: lineBarsDataChart,
     );
+  }
+
+  List<LineChartBarData> listLineChartBarData1D() {
+    return [
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 4),
+          FlSpot(5, 3),
+          FlSpot(10, 3.5),
+        ],
+        isCurved: true,
+        gradient: LinearGradient(
+          colors: gradientColors,
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 2),
+          FlSpot(5, 4),
+          FlSpot(10, 3),
+        ],
+        isCurved: true,
+        gradient: const LinearGradient(
+          colors: [Colors.blue, Colors.lightBlueAccent],
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors2
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+    ];
+  }
+
+  List<LineChartBarData> listLineChartBarData7D() {
+    return [
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 1),
+          FlSpot(3, 4),
+          FlSpot(6, 1.8),
+          FlSpot(10, 3),
+        ],
+        isCurved: true,
+        gradient: LinearGradient(
+          colors: gradientColors,
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 4),
+          FlSpot(3, 3),
+          FlSpot(7, 5),
+          FlSpot(10, 4),
+        ],
+        isCurved: true,
+        gradient: const LinearGradient(
+          colors: [Colors.blue, Colors.lightBlueAccent],
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors2
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+    ];
+  }
+
+  List<LineChartBarData> listLineChartBarData1M() {
+    return [
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 1),
+          FlSpot(2, 3),
+          FlSpot(4, 2),
+          FlSpot(8, 5),
+          FlSpot(10, 3),
+        ],
+        isCurved: true,
+        gradient: LinearGradient(
+          colors: gradientColors,
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 2),
+          FlSpot(2, 2.5),
+          FlSpot(4, 3),
+          FlSpot(8, 4),
+          FlSpot(10, 5),
+        ],
+        isCurved: true,
+        gradient: const LinearGradient(
+          colors: [Colors.blue, Colors.lightBlueAccent],
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors2
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+    ];
+  }
+
+  List<LineChartBarData> listLineChartBarData3M() {
+    return [
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 2),
+          FlSpot(2, 3),
+          FlSpot(4, 2.5),
+          FlSpot(6, 4),
+          FlSpot(8, 3.5),
+          FlSpot(10, 5),
+        ],
+        isCurved: true,
+        gradient: LinearGradient(
+          colors: gradientColors,
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 1.5),
+          FlSpot(2, 2.5),
+          FlSpot(4, 3),
+          FlSpot(6, 3.5),
+          FlSpot(8, 4),
+          FlSpot(10, 4.5),
+        ],
+        isCurved: true,
+        gradient: const LinearGradient(
+          colors: [Colors.blue, Colors.lightBlueAccent],
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors2
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+    ];
+  }
+
+  List<LineChartBarData> listLineChartBarData1Y() {
+    return [
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 1),
+          FlSpot(1.5, 1.8),
+          FlSpot(3, 1.2),
+          FlSpot(4.5, 3),
+          FlSpot(6, 2.5),
+          FlSpot(7.5, 4),
+          FlSpot(9, 3),
+          FlSpot(10, 4.5),
+        ],
+        isCurved: true,
+        gradient: LinearGradient(
+          colors: gradientColors,
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+      LineChartBarData(
+        spots: const [
+          FlSpot(0, 2),
+          FlSpot(1.5, 2.5),
+          FlSpot(3, 3.5),
+          FlSpot(4.5, 2),
+          FlSpot(6, 4),
+          FlSpot(7.5, 3.5),
+          FlSpot(9, 4.5),
+          FlSpot(10, 3),
+        ],
+        isCurved: true,
+        gradient: const LinearGradient(
+          colors: [Colors.blue, Colors.lightBlueAccent],
+        ),
+        barWidth: 2,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        // belowBarData: BarAreaData(
+        //   show: true,
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     colors: gradientColors2
+        //         .map((color) => color.withOpacity(0.6))
+        //         .toList(),
+        //   ),
+        // ),
+      ),
+    ];
   }
 }
