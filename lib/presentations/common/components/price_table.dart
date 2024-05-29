@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
-import 'package:se109_goldstore/core/extensions/datetime.dart';
 import 'package:se109_goldstore/core/utils/converter.dart';
 import 'package:se109_goldstore/core/utils/currency.dart';
 import 'package:se109_goldstore/data/models/daily_price.dart';
-import 'package:se109_goldstore/data/models/price_model.dart';
 
 import 'column_header.dart';
 
@@ -13,30 +11,24 @@ class PriceTable extends StatelessWidget {
   const PriceTable({
     super.key,
     required this.currentPrice,
-    required this.oldPrice,
     required this.currentTime,
-    required this.oldTime,
   });
 
   final List<DailyPrice> currentPrice;
-  final List<DailyPrice> oldPrice;
 
   final DateTime currentTime;
-  final DateTime oldTime;
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, List<PriceModel>> mapPrice = {};
+    final Map<String, List<double>> mapPrice = {};
 
+    // for (var element in oldPrice) {
+    //   mapPrice[element.name] ??= [];
+    //   mapPrice[element.name]!
+    //       .add(PriceModel(buy: element.buy, sell: element.sell));
+    // }
     for (var element in currentPrice) {
-      mapPrice[element.name] ??= [];
-      mapPrice[element.name]!
-          .add(PriceModel(buy: element.buy, sell: element.sell));
-    }
-    for (var element in oldPrice) {
-      mapPrice[element.name] ??= [PriceModel.empty()];
-      mapPrice[element.name]!
-          .add(PriceModel(buy: element.buy, sell: element.sell));
+      mapPrice[element.name] = [element.buy, element.sell, element.sell - element.buy];
     }
 
     return DataTable(
@@ -51,8 +43,8 @@ class PriceTable extends StatelessWidget {
       border: TableBorder.symmetric(
           outside: const BorderSide(width: 1, color: AppColor.border)),
       showCheckboxColumn: false,
-      columns: [
-        const DataColumn(
+      columns: const [
+        DataColumn(
             label: ColumnHeader(
           name: "Name",
           color: Colors.white,
@@ -60,15 +52,21 @@ class PriceTable extends StatelessWidget {
         DataColumn(
           label: ColumnHeader(
             color: Colors.white,
-            name: oldTime.toDMYFormat(),
+            name: 'Buy',
           ),
         ),
         DataColumn(
           label: ColumnHeader(
             color: Colors.white,
-            name: currentTime.toDMYFormat(),
+            name: 'Sell',
           ),
-        )
+        ),
+        DataColumn(
+          label: ColumnHeader(
+            color: Colors.white,
+            name: 'Gap',
+          ),
+        ),
       ],
       rows: mapPrice.keys
           .map((e) => DataRow(cells: [
@@ -76,30 +74,32 @@ class PriceTable extends StatelessWidget {
                   cvToString(e),
                   style: AppTextStyles.body,
                 )),
-                cellPrice(mapPrice[e]?[0] ?? PriceModel.empty()),
-                cellPrice(mapPrice[e]?[1] ?? PriceModel.empty()),
+                cellPrice(mapPrice[e]?[0] ?? 0, AppColor.textNormal),
+                cellPrice(
+                  mapPrice[e]?[1] ?? 0,
+                  (mapPrice[e]?[2] ?? 0) > 0 ? 
+                    AppColor.textSafe : 
+                    ((mapPrice[e]?[2] ?? 0) == 0 ? AppColor.textNormal : AppColor.textDanger)
+                ),
+                cellPrice(
+                  mapPrice[e]?[2] ?? 0, 
+                  (mapPrice[e]?[2] ?? 0) > 0 ? 
+                    AppColor.textSafe : 
+                    ((mapPrice[e]?[2] ?? 0) == 0 ? AppColor.textNormal : AppColor.textDanger)
+                ),
               ]))
           .toList(),
     );
   }
 
-  DataCell cellPrice(PriceModel price) {
-    return DataCell(Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(
-          CurrencyUtils.convertDoubleToCurrency(price.buy),
-        ),
-        Text(
-          CurrencyUtils.convertDoubleToCurrency(price.sell),
-          style: TextStyle(
-              color: price.buy < price.sell
-                  ? AppColor.textSafe
-                  : (price.buy > price.sell
-                      ? AppColor.textDanger
-                      : AppColor.textNormal)),
-        ),
-      ],
+  DataCell cellPrice(double price, Color color) {
+    return DataCell(Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Text(
+        CurrencyUtils.convertDoubleToCurrency(price),
+        style: TextStyle(
+            color: color),
+      ),
     ));
   }
 }

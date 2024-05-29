@@ -1,16 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/core/utils/converter.dart';
-import 'package:se109_goldstore/data/shared_preferences.dart';
-import 'package:se109_goldstore/presentations/common/components/add_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/number_button.dart';
 import 'package:se109_goldstore/presentations/common/components/page_header.dart';
-import 'package:se109_goldstore/presentations/general/alert_page.dart';
 import 'package:se109_goldstore/presentations/general/price_page.dart';
 
 class CalculatePage extends StatefulWidget {
@@ -538,18 +533,14 @@ class _CalculatePageState extends State<CalculatePage> {
                                 child:
                                     myTextField(selectedType = PriceType.GOLD)),
                             const SizedBox(width: 10),
-                            Positioned(
-                              right: MediaQuery.of(context).size.width / 7,
-                              top: MediaQuery.of(context).size.width / 20,
-                              child: GestureDetector(
-                                onTap: handleDelete,
-                                onLongPress: () => handleDelete(true),
-                                behavior: HitTestBehavior.translucent,
-                                child: Icon(
-                                  Icons.backspace_rounded,
-                                  color: Colors.white,
-                                  size: MediaQuery.of(context).size.width / 18,
-                                ),
+                            GestureDetector(
+                              onTap: handleDelete,
+                              onLongPress: () => handleDelete(true),
+                              behavior: HitTestBehavior.translucent,
+                              child: Icon(
+                                Icons.backspace_rounded,
+                                color: Colors.white,
+                                size: MediaQuery.of(context).size.width / 18,
                               ),
                             ),
                           ],
@@ -891,18 +882,14 @@ class _CalculatePageState extends State<CalculatePage> {
                                 child: myTextField(
                                     selectedType = PriceType.CURRENCY)),
                             const SizedBox(width: 10),
-                            Positioned(
-                              right: MediaQuery.of(context).size.width / 7,
-                              top: MediaQuery.of(context).size.width / 20,
-                              child: GestureDetector(
-                                onTap: handleDelete,
-                                onLongPress: () => handleDelete(true),
-                                behavior: HitTestBehavior.translucent,
-                                child: Icon(
-                                  Icons.backspace_rounded,
-                                  color: Colors.white,
-                                  size: MediaQuery.of(context).size.width / 18,
-                                ),
+                            GestureDetector(
+                              onTap: handleDelete,
+                              onLongPress: () => handleDelete(true),
+                              behavior: HitTestBehavior.translucent,
+                              child: Icon(
+                                Icons.backspace_rounded,
+                                color: Colors.white,
+                                size: MediaQuery.of(context).size.width / 18,
                               ),
                             ),
                           ],

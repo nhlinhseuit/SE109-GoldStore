@@ -4,7 +4,6 @@ import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/data/shared_preferences.dart';
 import 'package:se109_goldstore/presentations/common/components/add_elevated_button.dart';
-import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/number_button.dart';
 import 'package:se109_goldstore/presentations/general/alert_page.dart';
 import 'package:se109_goldstore/presentations/general/price_page.dart';
@@ -143,21 +142,17 @@ class _CreateAlertPageState extends State<CreateAlertPage> {
                         const SizedBox(width: 22),
                         Expanded(child: myTextField()),
                         const SizedBox(width: 10),
-                        Positioned(
-                          right: MediaQuery.of(context).size.width / 7,
-                          top: MediaQuery.of(context).size.width / 20,
-                          child: GestureDetector(
-                            onTap: handleDelete,
-                            onLongPress: () => handleDelete(true),
-                            behavior: HitTestBehavior.translucent,
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(12, 12, 14, 12),
-                              child: Icon(
-                                Icons.backspace_rounded,
-                                color: Colors.white,
-                                size: MediaQuery.of(context).size.width / 16,
-                              ),
+                        GestureDetector(
+                          onTap: handleDelete,
+                          onLongPress: () => handleDelete(true),
+                          behavior: HitTestBehavior.translucent,
+                          child: Container(
+                            padding:
+                                const EdgeInsets.fromLTRB(12, 12, 14, 12),
+                            child: Icon(
+                              Icons.backspace_rounded,
+                              color: Colors.white,
+                              size: MediaQuery.of(context).size.width / 16,
                             ),
                           ),
                         ),

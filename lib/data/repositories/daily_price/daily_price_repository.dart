@@ -1,3 +1,4 @@
+import 'package:se109_goldstore/data/models/currency_price.dart';
 import 'package:se109_goldstore/data/models/daily_price.dart';
 import 'package:se109_goldstore/data/repositories/daily_price/services/daily_price_service.dart';
 import 'package:se109_goldstore/data/repositories/daily_price/services/firebase_daily_price_service.dart';
@@ -7,7 +8,7 @@ class DailyPriceRepository {
   static DailyPriceRepository? _instance;
 
   static DailyPriceRepository get instance {
-    assert(_instance != null, "Auth instance has not been initialized!");
+    if (_instance == null) return DailyPriceRepository._(firebase: FirebaseDailyPriceService());
     return _instance!;
   }
 
@@ -15,9 +16,12 @@ class DailyPriceRepository {
     required FirebaseDailyPriceService firebase,
   })  : _firebase = firebase;
 
-  Future<DailyPrice> getDailyPriceById(String id) 
+  Future<DailyPrice?> getDailyPriceById(String id) 
     => _firebase.getDailyPriceById(id);
 
-  Future<List<DailyPrice>> getDailyPrices() 
-    => _firebase.getDailyPrices();
+  Future<List<DailyPrice>> getDailyPrices(DateTime time) 
+    => _firebase.getDailyPrices(time);
+
+  Future<List<CurrencyPrice>> getCurrencies(DateTime time) 
+    => _firebase.getCurrencies(time);
 }
