@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:se109_goldstore/constants/routers.dart';
 import 'package:se109_goldstore/data/repositories/daily_price/services/firebase_api.dart';
@@ -17,15 +15,6 @@ void main() async {
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]); // Sử dụng SystemUiOverlay.top
-
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor:
-          Colors.transparent, // Đặt màu transparent cho thanh trạng thái
-      statusBarIconBrightness:
-          Brightness.light, // Đặt màu của các biểu tượng trên thanh trạng thái
-    ),
-  );
 
   await Firebase.initializeApp(
     options: const FirebaseOptions(

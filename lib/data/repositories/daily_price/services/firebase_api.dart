@@ -1,10 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:se109_goldstore/presentations/general/create_alert_page.dart';
-import 'package:se109_goldstore/presentations/general/price_page.dart';
 import 'package:se109_goldstore/presentations/revenue/notification_page.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {

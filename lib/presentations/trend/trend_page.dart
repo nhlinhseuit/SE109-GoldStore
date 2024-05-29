@@ -1,11 +1,13 @@
 import 'dart:core';
-import 'package:dotted_line/dotted_line.dart';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
-import 'package:se109_goldstore/presentations/common/components/page_title.dart';
-import 'package:se109_goldstore/presentations/common/components/tab_chart_button.dart';
-import 'package:se109_goldstore/presentations/trend/fl_chart.dart';
+import 'package:se109_goldstore/constants/text_styles.dart';
+import 'package:se109_goldstore/data/mock_data.dart';
+import 'package:se109_goldstore/data/models/gold_news.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../common/components/page_header.dart';
 
 class TrendPage extends StatefulWidget {
@@ -44,279 +46,125 @@ class _TrendPageState extends State<TrendPage> {
         ),
         child: ListView(children: [
           const Header(
-            firstLine: "Chỉ Báo",
+            firstLine: "Tin tức",
           ),
-          const PageTitle(
-            firstLine: "Biểu đồ chỉ báo giá vàng",
-            secondLine: "sắp tới",
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 32.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = 1;
-                    });
-                  },
-                  child: TabChartButton(
-                    text: '1D',
-                    id: 1,
-                    index: isSelected,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = 2;
-                    });
-                  },
-                  child: TabChartButton(
-                    text: '7D',
-                    id: 2,
-                    index: isSelected,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = 3;
-                    });
-                  },
-                  child: TabChartButton(
-                    text: '1M',
-                    id: 3,
-                    index: isSelected,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = 4;
-                    });
-                  },
-                  child: TabChartButton(
-                    text: '3M',
-                    id: 4,
-                    index: isSelected,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = 5;
-                    });
-                  },
-                  child: TabChartButton(
-                    text: '1Y',
-                    id: 5,
-                    index: isSelected,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 20.0, right: 20, top: 10),
-            child: DottedLine(
-              direction: Axis.horizontal,
-              alignment: WrapAlignment.center,
-              lineLength: double.infinity,
-              lineThickness: 1.0,
-              dashLength: 4.0,
-              dashColor: Colors.white,
-              dashRadius: 0.0,
-              dashGapLength: 4.0,
-              dashGapColor: Colors.transparent,
-              dashGapRadius: 0.0,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Stack(
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 1.70,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 10,
-                      left: 10,
-                      top: 0,
-                      bottom: 0,
-                    ),
-                    child: LineChart(
-                      mainData(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(40),
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              border: Border.all(width: 2, color: AppColor.secondDark),
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 18,
-                  width: 18,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF00c183),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text('Mua vào'),
-                const SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  height: 18,
-                  width: 18,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFFa7443e),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text('Bán ra'),
-              ],
-            ),
-          ),
-          Container(
-            height: 4,
-            width: MediaQuery.of(context).size.width,
-            color: const Color.fromARGB(255, 63, 63, 63),
-          ),
-
-          // THONG KE
+          
           const SizedBox(
-            height: 30,
+            height: 20,
           ),
-          const PageTitle(
-            firstLine: "Thống kê",
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColor.secondDark,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_upward_rounded,
-                            size: 18,
-                            color: AppColor.textSafe,
-                          ),
-                          SizedBox(
-                            width: 6,
-                          ),
-                          Text(
-                            '1Y cao nhất',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    const Text(
-                      '26.000VND',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: AppColor.textNormal,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColor.secondDark,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_downward_rounded,
-                            size: 18,
-                            color: AppColor.textDanger,
-                          ),
-                          SizedBox(
-                            width: 6,
-                          ),
-                          Text(
-                            '1Y thấp nhất',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    const Text(
-                      '23.000VND',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: AppColor.textNormal,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 48,
-          ),
+          ...getNews(),
         ]),
       ),
     );
+  }
+
+  List<Widget> getNews() {
+    List<Widget> listNews = [];
+    List<GoldNews> listNewsData = MockData.goldNews;
+
+    for (int index = 0; index < listNewsData.length; index++) {
+      listNews.add(
+        InkWell(
+          onTap: () {
+            _launchURL(listNewsData[index].link, false);
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 120,
+            margin: const EdgeInsets.only(
+              bottom: 8,
+              left: 10,
+              right: 10,
+            ),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              children: [
+                Container(
+                  width: 110,
+                  height: 110,
+                  margin: const EdgeInsets.only(
+                    left: 4,
+                  ),
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFfff7e6),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      fit: BoxFit.cover,
+                      listNewsData[index].img,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 150,
+                      child: Text(
+                        listNewsData[index].title,
+                        maxLines: 2,
+                        overflow: TextOverflow.fade,
+                        style: AppTextStyles.appbarTitle.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w200,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 150,
+                      child: Text(
+                        listNewsData[index].desc,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.appbarTitle.copyWith(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w200,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    return listNews;
+  }
+
+  _launchURL(String link, bool inApp) async {
+    final Uri url = Uri.parse(link);
+    try {
+      if (inApp) {
+        if (!await launchUrl(
+          url,
+          mode: LaunchMode.inAppWebView,
+        )) {
+          throw Exception('Could not launch $url');
+        }
+      } else {
+        await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        );
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {

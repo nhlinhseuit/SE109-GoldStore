@@ -4,7 +4,6 @@ import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/data/shared_preferences.dart';
 import 'package:se109_goldstore/presentations/common/components/add_elevated_button.dart';
 import 'package:se109_goldstore/presentations/common/components/loading.dart';
-import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
 import 'package:se109_goldstore/presentations/general/create_alert_page.dart';
 import 'package:se109_goldstore/presentations/general/price_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';

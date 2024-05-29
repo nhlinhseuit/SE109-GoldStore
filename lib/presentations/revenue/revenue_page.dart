@@ -1,20 +1,13 @@
 import 'dart:core';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/core/utils/converter.dart';
-import 'package:se109_goldstore/data/mock_data.dart';
-import 'package:se109_goldstore/data/shared_preferences.dart';
-import 'package:se109_goldstore/presentations/caculate/calculate_page.dart';
-import 'package:se109_goldstore/presentations/common/components/add_elevated_button.dart';
-import 'package:se109_goldstore/presentations/common/components/page_title.dart';
-import 'package:se109_goldstore/presentations/common/components/price_table.dart';
-import 'package:se109_goldstore/presentations/general/price_page.dart';
 import 'package:se109_goldstore/presentations/common/components/history_item.dart';
+import 'package:se109_goldstore/presentations/common/components/page_title.dart';
+import 'package:se109_goldstore/presentations/general/price_page.dart';
 import 'package:se109_goldstore/presentations/revenue/add_history.dart';
 import 'package:se109_goldstore/presentations/revenue/notification_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -112,15 +105,47 @@ class _RevenuePageState extends State<RevenuePage> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            elevation: 0.0,
-            shape: const CircleBorder(
-              side: BorderSide(
-                color: Colors.white, // Border color
-                width: 3.0, // Border width
+          ElevatedButton(style: ElevatedButton.styleFrom(
+              backgroundColor: AppColor.textSafe, 
+              foregroundColor: Colors.white, 
+              shape: const CircleBorder(
+                side: BorderSide(
+                  color: Colors.white, 
+                  width: 3.0, 
+                ),
               ),
+              elevation: 0, 
+              padding: const EdgeInsets.all(16), 
             ),
-            backgroundColor: AppColor.secondDark,
+            onPressed: () {
+              
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationPage(),
+                  ));
+            },
+            child: const Icon(
+              Icons.alarm,
+              color: Colors.white,
+              weight: 4,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(style: ElevatedButton.styleFrom(
+              backgroundColor: AppColor.secondDark, 
+              foregroundColor: Colors.white, 
+              shape: const CircleBorder(
+                side: BorderSide(
+                  color: Colors.white, 
+                  width: 3.0, 
+                ),
+              ),
+              elevation: 0, 
+              padding: const EdgeInsets.all(16),
+            ),
             onPressed: () {
               // removeAllFromList('myDateHistoryList');
               // removeAllFromList('myQuantityHistoryList');
