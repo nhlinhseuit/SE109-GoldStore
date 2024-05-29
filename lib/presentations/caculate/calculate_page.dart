@@ -412,7 +412,7 @@ class _CalculatePageState extends State<CalculatePage> {
           const Padding(
             padding: EdgeInsets.only(top: 40.0),
             child: Header(
-              firstLine: "Quy đổi",
+              firstLine: "Quy Đổi",
             ),
           ),
           Expanded(

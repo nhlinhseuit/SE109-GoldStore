@@ -46,9 +46,8 @@ class _TrendPageState extends State<TrendPage> {
         ),
         child: ListView(children: [
           const Header(
-            firstLine: "Tin tức",
+            firstLine: "Tin Tức",
           ),
-          
           const SizedBox(
             height: 20,
           ),
