@@ -105,45 +105,17 @@ class _RevenuePageState extends State<RevenuePage> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          ElevatedButton(style: ElevatedButton.styleFrom(
-              backgroundColor: AppColor.textSafe, 
-              foregroundColor: Colors.white, 
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColor.secondDark,
+              foregroundColor: Colors.white,
               shape: const CircleBorder(
                 side: BorderSide(
-                  color: Colors.white, 
-                  width: 3.0, 
+                  color: Colors.white,
+                  width: 3.0,
                 ),
               ),
-              elevation: 0, 
-              padding: const EdgeInsets.all(16), 
-            ),
-            onPressed: () {
-              
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NotificationPage(),
-                  ));
-            },
-            child: const Icon(
-              Icons.alarm,
-              color: Colors.white,
-              weight: 4,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(style: ElevatedButton.styleFrom(
-              backgroundColor: AppColor.secondDark, 
-              foregroundColor: Colors.white, 
-              shape: const CircleBorder(
-                side: BorderSide(
-                  color: Colors.white, 
-                  width: 3.0, 
-                ),
-              ),
-              elevation: 0, 
+              elevation: 0,
               padding: const EdgeInsets.all(16),
             ),
             onPressed: () {
