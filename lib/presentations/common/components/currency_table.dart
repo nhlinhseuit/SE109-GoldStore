@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/core/extensions/datetime.dart';
@@ -72,9 +74,14 @@ class CurrencyTable extends StatelessWidget {
       ],
       rows: mapPrice.keys
           .map((e) => DataRow(cells: [
-                DataCell(Text(
-                  cvToString(e),
-                  style: AppTextStyles.body,
+              DataCell(Container(
+                constraints: const BoxConstraints(
+                  maxWidth: 160
+                ),
+                  child: Text(
+                    cvToString(e),
+                    style: AppTextStyles.body,
+                  ),
                 )),
                 cellPrice(mapPrice[e]![0], AppColor.textNormal),
                 cellPrice(mapPrice[e]![1], (mapPrice[e]![0]) < (mapPrice[e]![1])
@@ -88,15 +95,12 @@ class CurrencyTable extends StatelessWidget {
   }
 
   DataCell cellPrice(double price, Color color) {
-    return DataCell(Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(
-          CurrencyUtils.convertDoubleToCurrencyWithUnit(price),
-          style: TextStyle(
-              color: color),
-        ),
-      ],
+    return DataCell(Text(
+      CurrencyUtils.convertDoubleToCurrencyWithUnit(price),
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+          color: color),
     ));
   }
 }

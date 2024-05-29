@@ -57,7 +57,7 @@ class FirebaseDailyPriceService extends DailyPriceService {
       currencies.add(
         CurrencyPrice(
           id: key, 
-          name: CurrencyCode.mapCodeName[key] ?? key, 
+          name: CurrencyCode.mapCodeName[key.toUpperCase()] ?? key.toUpperCase(),
           buy: 1.0 / cvToDouble(value), 
           time: time
         )

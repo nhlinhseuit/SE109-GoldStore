@@ -17,18 +17,6 @@ void main() async {
       overlays: [SystemUiOverlay.top]); // Sử dụng SystemUiOverlay.top
 
   await Firebase.initializeApp(
-    name: 'stylle',
-    options: const FirebaseOptions(
-      apiKey:
-          'AIzaSyCpKPaEwroREo5oM9ZhLwuWnGRz6oFRKvc', // paste your api key here
-      appId:
-          '1:1024287017546:android:2e46256e8a7936039134b3', //paste your app id here
-      messagingSenderId: '1024287017546', //paste your messagingSenderId here
-      projectId: 'stylle', //paste your project id here
-    ),
-  );
-
-  await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey:
           'AIzaSyCpKPaEwroREo5oM9ZhLwuWnGRz6oFRKvc', // paste your api key here

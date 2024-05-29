@@ -54,7 +54,6 @@ class _RevenuePageState extends State<RevenuePage> {
     myDateHistoryList = prefs.getStringList('myDateHistoryList') ?? [];
     myQuantityHistoryList = prefs.getStringList('myQuantityHistoryList') ?? [];
 
-
     // tính tổng số lượng vàng
     totalQuantity = 0;
     for (var element in myQuantityHistoryList) {
@@ -72,7 +71,6 @@ class _RevenuePageState extends State<RevenuePage> {
     setState(() {
       mapHistory = sortMapHistory(mapHistoryFunc);
     });
-
   }
 
   Map<String, List<String>> sortMapHistory(Map<String, List<String>> map) {
