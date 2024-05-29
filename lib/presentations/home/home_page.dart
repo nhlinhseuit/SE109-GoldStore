@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
               gap: 0,
             ),
             GButton(
-              icon: Icons.newspaper_rounded,
+              icon: Icons.add_chart_rounded,
               iconActiveColor: AppColor.primaryGold,
               iconSize: 30,
               iconColor: AppColor.notActiveButton,
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
               gap: 0,
             ),
             GButton(
-              icon: Icons.add_chart_rounded,
+              icon: Icons.newspaper_rounded,
               iconActiveColor: AppColor.primaryGold,
               iconSize: 30,
               iconColor: AppColor.notActiveButton,

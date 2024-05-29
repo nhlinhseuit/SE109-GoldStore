@@ -25,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -70,5 +64,23 @@ class DefaultFirebaseOptions {
     projectId: 'gold-digger-51a79',
     storageBucket: 'gold-digger-51a79.appspot.com',
     iosBundleId: 'com.example.se109Goldstore',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCEzh0vdQSG63pSySkIE_Ry3jHuZLAUC1s',
+    appId: '1:995242381642:ios:c71002b973c79942dcf1b3',
+    messagingSenderId: '995242381642',
+    projectId: 'gold-digger-51a79',
+    storageBucket: 'gold-digger-51a79.appspot.com',
+    iosBundleId: 'com.example.se109Goldstore',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBbhlP_6igD4w_28K-FWdxObmhlASUP5vk',
+    appId: '1:995242381642:web:34ffca98128cb21fdcf1b3',
+    messagingSenderId: '995242381642',
+    projectId: 'gold-digger-51a79',
+    authDomain: 'gold-digger-51a79.firebaseapp.com',
+    storageBucket: 'gold-digger-51a79.appspot.com',
   );
 }

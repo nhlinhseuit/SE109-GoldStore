@@ -1,3 +1,4 @@
+import 'package:se109_goldstore/data/models/currency_price.dart';
 import 'package:se109_goldstore/data/models/daily_price.dart';
 import 'package:se109_goldstore/data/repositories/daily_price/services/daily_price_service.dart';
 import 'package:se109_goldstore/data/repositories/daily_price/services/firebase_daily_price_service.dart';
@@ -20,4 +21,7 @@ class DailyPriceRepository {
 
   Future<List<DailyPrice>> getDailyPrices(DateTime time) 
     => _firebase.getDailyPrices(time);
+
+  Future<List<CurrencyPrice>> getCurrencies(DateTime time) 
+    => _firebase.getCurrencies(time);
 }

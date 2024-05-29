@@ -37,8 +37,6 @@ class _AlertPageState extends State<AlertPage> {
     currentGoldAlertList = prefs.getStringList('myAlertsGoldList') ?? [];
     currentCurrencyAlertList =
         prefs.getStringList('myAlertsCurrencyList') ?? [];
-    print('initSync currentGoldAlertList $currentGoldAlertList');
-    print('initSync currentCurrencyAlertList $currentCurrencyAlertList');
     setState(() {
       isLoading = false;
     });

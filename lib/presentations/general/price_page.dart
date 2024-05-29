@@ -1,12 +1,13 @@
 import 'dart:core';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/core/utils/converter.dart';
-import 'package:se109_goldstore/data/mock_data.dart';
+import 'package:se109_goldstore/data/models/currency_price.dart';
 import 'package:se109_goldstore/data/models/daily_price.dart';
 import 'package:se109_goldstore/data/repositories/daily_price/daily_price_repository.dart';
+import 'package:se109_goldstore/presentations/common/components/currency_table.dart';
 import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
 import 'package:se109_goldstore/presentations/general/alert_page.dart';
 
@@ -29,10 +30,10 @@ class _PricePageState extends State<PricePage> {
   DateTime selectedDateGold = DateTime.now();
   // DateTime selectedOldDateGold = DateTime.now();
   DateTime selectedDateCurrency = DateTime.now();
-  // DateTime selectedOldDateCurrency = DateTime.now();
+  DateTime selectedOldDateCurrency = DateTime.now();
 
-  // List<DailyPrice> oldGold = [];
-  // List<DailyPrice> gold = [];
+  List<CurrencyPrice> oldPrice = [];
+  List<CurrencyPrice> price = [];
 
   DailyPriceRepository priceRepository = DailyPriceRepository.instance;
 
@@ -48,6 +49,7 @@ class _PricePageState extends State<PricePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -111,7 +113,7 @@ class _PricePageState extends State<PricePage> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, {bool isOld = false}) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedType == PriceType.GOLD ? selectedDateGold : selectedDateCurrency,
@@ -137,19 +139,19 @@ class _PricePageState extends State<PricePage> {
         }
       // }
     } else {
-      // if (isOld) {
-        // if (picked != null && picked != selectedOldDateCurrency) {
-        //   setState(() {
-        //     selectedOldDateCurrency = picked;
-        //   });
-        // }
-      // } else {
+      if (isOld) {
+        if (picked != null && picked != selectedOldDateCurrency) {
+          setState(() {
+            selectedOldDateCurrency = picked;
+          });
+        }
+      } else {
         if (picked != null && picked != selectedDateCurrency) {
           setState(() {
             selectedDateCurrency = picked;
           });
         }
-      // }
+      }
     }
   }
 
@@ -227,30 +229,6 @@ class _PricePageState extends State<PricePage> {
                       ),
                     ),
                   ),
-                  // const SizedBox(
-                  //   width: 10,
-                  // ),
-                  // OutlinedButton(
-                  //   onPressed: () => _selectDate(context, true),
-                  //   child: Row(
-                  //     children: [
-                  //       const Icon(
-                  //         Icons.calendar_month,
-                  //         color: Colors.white,
-                  //       ),
-                  //       const SizedBox(
-                  //         width: 10,
-                  //       ),
-                  //       Text(
-                  //         formatDatetime(selectedOldDateGold),
-                  //         style: AppTextStyles.body.copyWith(
-                  //           color: Colors.white,
-                  //           fontSize: 15,
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -317,67 +295,69 @@ class _PricePageState extends State<PricePage> {
                 top: 24,
                 bottom: 2,
               ),
-              child: Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Text(
-                      'Chọn ngày',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: AppColor.textSafe,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: Text(
+                        'Chọn ngày',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          color: AppColor.textSafe,
+                        ),
                       ),
                     ),
-                  ),
-                  // const SizedBox(
-                  //   width: 10,
-                  // ),
-                  // OutlinedButton(
-                  //   onPressed: () => _selectDate(context, true),
-                  //   child: Row(
-                  //     children: [
-                  //       const Icon(
-                  //         Icons.calendar_month,
-                  //         color: Colors.white,
-                  //       ),
-                  //       const SizedBox(
-                  //         width: 10,
-                  //       ),
-                  //       Text(
-                  //         formatDatetime(selectedOldDateCurrency),
-                  //         style: AppTextStyles.body.copyWith(
-                  //           color: Colors.white,
-                  //           fontSize: 15,
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  OutlinedButton(
-                    onPressed: () => _selectDate(context),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.calendar_month,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          formatDatetime(selectedDateCurrency),
-                          style: AppTextStyles.body.copyWith(
+                    const SizedBox(width: 10,),
+                    OutlinedButton(
+                      onPressed: () => _selectDate(context, isOld: true),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_month,
                             color: Colors.white,
-                            fontSize: 15,
                           ),
-                        )
-                      ],
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            formatDatetime(selectedOldDateCurrency),
+                            style: AppTextStyles.body.copyWith(
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    OutlinedButton(
+                      onPressed: () => _selectDate(context),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_month,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            formatDatetime(selectedDateCurrency),
+                            style: AppTextStyles.body.copyWith(
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 10,),
+                  ],
+                ),
               ),
             ),
             Padding(
@@ -388,11 +368,25 @@ class _PricePageState extends State<PricePage> {
                   constraints: BoxConstraints(
                     minWidth: MediaQuery.of(context).size.width - 32,
                   ),
-                  child: PriceTable(
-                    currentPrice: MockData.todaysCurrency,
-                    // oldPrice: MockData.yesterdaysCurrency,
-                    currentTime: selectedDateCurrency,
-                    // oldTime: selectedOldDateCurrency,
+                  child: FutureBuilder(
+                    future: () async{
+                      final price = await priceRepository.getCurrencies(selectedDateGold);
+                      final olDate = selectedOldDateCurrency.isAfter(DateTime(2024, 3, 6)) ? selectedOldDateCurrency : DateTime(2024, 3, 6);
+                      final oldPrice = await priceRepository.getCurrencies(olDate);
+                      // final oldPrice = await priceRepository.getDailyPrices(selectedOldDateGold);
+                      return [price, oldPrice];
+                    }(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done || !snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return CurrencyTable(
+                        currentPrice: snapshot.data?[0] ?? [],
+                        oldPrice: snapshot.data?[1] ?? [],
+                        currentTime: selectedDateCurrency,
+                        oldTime: selectedOldDateCurrency,
+                      );
+                    }
                   ),
                 ),
               ),
