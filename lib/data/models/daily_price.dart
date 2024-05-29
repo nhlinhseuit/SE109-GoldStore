@@ -5,11 +5,13 @@ class DailyPrice extends Equatable {
   final String name;
   final double buy;
   final double sell;
+  final DateTime time;
   const DailyPrice({
     required this.id,
     required this.name,
     required this.buy,
     required this.sell,
+    required this.time,
   });
 
   DailyPrice copyWith({
@@ -17,12 +19,14 @@ class DailyPrice extends Equatable {
     String? name,
     double? buy,
     double? sell,
+    DateTime? time,
   }) {
     return DailyPrice(
       id: id ?? this.id,
       name: name ?? this.name,
       buy: buy ?? this.buy,
       sell: sell ?? this.sell,
+      time: time ?? this.time,
     );
   }
 
@@ -39,11 +43,14 @@ class DailyPrice extends Equatable {
     String? id,
     required Map<String, dynamic> json
   }) {
+    String buy = (json['Buy'] as String).replaceAll(',', '');
+    String sell = (json['Sell'] as String).replaceAll(',', '');
     return DailyPrice(
       id: id,
-      name: json['name'] as String,
-      buy: json['buy'] as double,
-      sell: json['sell'] as double,
+      name: json['Name'] as String,
+      buy: double.tryParse(buy) ?? 0,
+      sell: double.tryParse(sell) ?? 0,
+      time: DateTime.parse(json['Time'])
     );
   }
 
@@ -51,5 +58,5 @@ class DailyPrice extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [id, name, buy, sell];
+  List<Object?> get props => [id, name, buy, sell, time];
 }

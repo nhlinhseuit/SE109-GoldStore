@@ -1,11 +1,12 @@
 import 'dart:core';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/presentations/common/components/page_title.dart';
 import 'package:se109_goldstore/presentations/common/components/tab_chart_button.dart';
-import 'package:se109_goldstore/presentations/trend/fl_chart.dart';
+
 import '../common/components/page_header.dart';
 
 class TrendPage extends StatefulWidget {

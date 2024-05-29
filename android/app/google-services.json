@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "995242381642",
+    "project_id": "gold-digger-51a79",
+    "storage_bucket": "gold-digger-51a79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995242381642:android:b5fb8a2ed33f82f9dcf1b3",
+        "android_client_info": {
+          "package_name": "com.example.se109_goldstore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArB6wVLWBD3bcQ29sV7nC0hXCgy0OnldM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

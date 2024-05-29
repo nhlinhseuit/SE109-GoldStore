@@ -1,10 +1,12 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/rendering.dart';
 import 'package:se109_goldstore/constants/colors.dart';
 import 'package:se109_goldstore/constants/text_styles.dart';
 import 'package:se109_goldstore/core/utils/converter.dart';
 import 'package:se109_goldstore/data/mock_data.dart';
+import 'package:se109_goldstore/data/models/daily_price.dart';
+import 'package:se109_goldstore/data/repositories/daily_price/daily_price_repository.dart';
 import 'package:se109_goldstore/presentations/common/components/my_elevated_button.dart';
 import 'package:se109_goldstore/presentations/general/alert_page.dart';
 
@@ -25,7 +27,14 @@ class _PricePageState extends State<PricePage> {
   var selectedType = PriceType.GOLD;
   var previousSelectedType = PriceType.GOLD;
   DateTime selectedDateGold = DateTime.now();
+  // DateTime selectedOldDateGold = DateTime.now();
   DateTime selectedDateCurrency = DateTime.now();
+  // DateTime selectedOldDateCurrency = DateTime.now();
+
+  // List<DailyPrice> oldGold = [];
+  // List<DailyPrice> gold = [];
+
+  DailyPriceRepository priceRepository = DailyPriceRepository.instance;
 
   @override
   void initState() {
@@ -105,22 +114,59 @@ class _PricePageState extends State<PricePage> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
+      initialDate: selectedType == PriceType.GOLD ? selectedDateGold : selectedDateCurrency,
+      firstDate: DateTime.now().subtract(const Duration(days: 365 * 5)),
+      lastDate: DateTime.now(),
     );
     if (selectedType == PriceType.GOLD) {
-      if (picked != selectedDateGold) {
-        setState(() {
-          selectedDateGold = picked!;
-        });
-      }
+      // if (isOld) {
+        // if (picked != null && picked != selectedOldDateGold) {
+        //   // final data = await priceRepository.getDailyPrices(picked);
+        //   setState(() {
+        //     selectedOldDateGold = picked;
+        //     // oldGold = removeDuplicates(data);
+        //   });
+        // }
+      // } else {
+        if (picked != null && picked != selectedDateGold) {
+          // final data = await priceRepository.getDailyPrices(picked);
+          setState(() {
+            selectedDateGold = picked;
+            // gold = removeDuplicates(data);
+          });
+        }
+      // }
     } else {
-      if (picked != selectedDateCurrency) {
-        setState(() {
-          selectedDateCurrency = picked!;
-        });
+      // if (isOld) {
+        // if (picked != null && picked != selectedOldDateCurrency) {
+        //   setState(() {
+        //     selectedOldDateCurrency = picked;
+        //   });
+        // }
+      // } else {
+        if (picked != null && picked != selectedDateCurrency) {
+          setState(() {
+            selectedDateCurrency = picked;
+          });
+        }
+      // }
+    }
+  }
+
+  List<DailyPrice> removeDuplicates(List<DailyPrice> prices) {
+    // Create a map to store the latest object for each name
+    Map<String, DailyPrice> latestPricesMap = {};
+
+    // Iterate through the list
+    for (DailyPrice obj in prices) {
+      // If the name is not in the map or the current object's time is later, update the map
+      if (!latestPricesMap.containsKey(obj.name) || obj.time.isAfter(latestPricesMap[obj.name]!.time)) {
+        latestPricesMap[obj.name] = obj;
       }
     }
+
+    // Convert the map values back to a list
+    return latestPricesMap.values.toList();
   }
 
   Widget tabButton(String text, PriceType type) {
@@ -181,6 +227,30 @@ class _PricePageState extends State<PricePage> {
                       ),
                     ),
                   ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  // OutlinedButton(
+                  //   onPressed: () => _selectDate(context, true),
+                  //   child: Row(
+                  //     children: [
+                  //       const Icon(
+                  //         Icons.calendar_month,
+                  //         color: Colors.white,
+                  //       ),
+                  //       const SizedBox(
+                  //         width: 10,
+                  //       ),
+                  //       Text(
+                  //         formatDatetime(selectedOldDateGold),
+                  //         style: AppTextStyles.body.copyWith(
+                  //           color: Colors.white,
+                  //           fontSize: 15,
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -210,17 +280,32 @@ class _PricePageState extends State<PricePage> {
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: PriceTable(
-                      currentPrice: MockData.todaysGold,
-                      oldPrice: MockData.yesterdaysGold,
-                      currentTime: DateTime.now(),
-                      oldTime: DateTime.now(),
-                    ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  constraints: BoxConstraints(
+                    minWidth: MediaQuery.of(context).size.width - 32,
                   ),
-                ],
+                  child: FutureBuilder(
+                    future: () async {
+                      final price = await priceRepository.getDailyPrices(selectedDateGold);
+                      // final oldPrice = await priceRepository.getDailyPrices(selectedOldDateGold);
+                      return price;
+                    }(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done || !snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      return PriceTable(
+                        currentPrice: snapshot.data!,
+                        // oldPrice: snapshot.data![1],
+                        currentTime: selectedDateGold,
+                        // oldTime: selectedOldDateGold,
+                      );
+                    }
+                  ),
+                ),
               ),
             ),
           ]
@@ -244,6 +329,30 @@ class _PricePageState extends State<PricePage> {
                       ),
                     ),
                   ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  // OutlinedButton(
+                  //   onPressed: () => _selectDate(context, true),
+                  //   child: Row(
+                  //     children: [
+                  //       const Icon(
+                  //         Icons.calendar_month,
+                  //         color: Colors.white,
+                  //       ),
+                  //       const SizedBox(
+                  //         width: 10,
+                  //       ),
+                  //       Text(
+                  //         formatDatetime(selectedOldDateCurrency),
+                  //         style: AppTextStyles.body.copyWith(
+                  //           color: Colors.white,
+                  //           fontSize: 15,
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -273,17 +382,19 @@ class _PricePageState extends State<PricePage> {
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: PriceTable(
-                      currentPrice: MockData.todaysCurrency,
-                      oldPrice: MockData.yesterdaysCurrency,
-                      currentTime: DateTime.now(),
-                      oldTime: DateTime.now(),
-                    ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  constraints: BoxConstraints(
+                    minWidth: MediaQuery.of(context).size.width - 32,
                   ),
-                ],
+                  child: PriceTable(
+                    currentPrice: MockData.todaysCurrency,
+                    // oldPrice: MockData.yesterdaysCurrency,
+                    currentTime: selectedDateCurrency,
+                    // oldTime: selectedOldDateCurrency,
+                  ),
+                ),
               ),
             ),
           ];
