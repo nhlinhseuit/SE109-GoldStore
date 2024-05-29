@@ -61,7 +61,6 @@ class _RevenuePageState extends State<RevenuePage> {
     myDateHistoryList = prefs.getStringList('myDateHistoryList') ?? [];
     myQuantityHistoryList = prefs.getStringList('myQuantityHistoryList') ?? [];
 
-
     // tính tổng số lượng vàng
     totalQuantity = 0;
     for (var element in myQuantityHistoryList) {
@@ -79,7 +78,6 @@ class _RevenuePageState extends State<RevenuePage> {
     setState(() {
       mapHistory = sortMapHistory(mapHistoryFunc);
     });
-
   }
 
   Map<String, List<String>> sortMapHistory(Map<String, List<String>> map) {
@@ -114,32 +112,6 @@ class _RevenuePageState extends State<RevenuePage> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            elevation: 0.0,
-            shape: const CircleBorder(
-              side: BorderSide(
-                color: Colors.white, // Border color
-                width: 3.0, // Border width
-              ),
-            ),
-            backgroundColor: AppColor.textSafe,
-            onPressed: () {
-              
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NotificationPage(),
-                  ));
-            },
-            child: const Icon(
-              Icons.alarm,
-              color: Colors.white,
-              weight: 4,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
           FloatingActionButton(
             elevation: 0.0,
             shape: const CircleBorder(
