@@ -3,7 +3,9 @@
 *.log
 *.pyc
 *.swp
+*.cmake
 *.swift
+*.cc
 pubspec.lock
 .DS_Store
 .atom/
